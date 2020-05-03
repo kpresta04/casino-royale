@@ -9350,6 +9350,11 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
+shuffle@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/shuffle/-/shuffle-0.2.2.tgz#da4de99f165f55cfee7d2540fe099cbcdb1c024c"
+  integrity sha1-2k3pnxZfVc/ufSVA/gmcvNscAkw=
+
 side-channel@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/side-channel/-/side-channel-1.0.2.tgz#df5d1abadb4e4bf4af1cd8852bf132d2f7876947"
