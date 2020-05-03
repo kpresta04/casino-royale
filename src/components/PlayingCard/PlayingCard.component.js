@@ -55,5 +55,11 @@ const imageDict = {
 };
 
 export default function PlayingCard(props) {
-	return <img alt="playing card" src={imageDict[props.shortString]}></img>;
+	return (
+		<img
+			className="fade-in-fast playingCard"
+			alt="playing card"
+			src={imageDict[props.shortString]}
+		></img>
+	);
 }
