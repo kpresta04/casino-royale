@@ -7,11 +7,6 @@ import BlackjackState from "../../context/BlackjackContext";
 
 export default function BlackjackPage() {
 	const Context = useContext(BlackjackState);
-	// const [playerCardsState, playerCardsSet] = useState([]);
-	// // const [dealerCardsState, dealerCardsSet] = useState([]);
-	// const [dealerHandScore, dealerHandScoreSet] = useState(0);
-	// const [playerHandScore, playerHandScoreSet] = useState(0);
-	// const [running, runningSet] = useState(false);
 
 	useEffect(() => {
 		startGame();
@@ -73,7 +68,7 @@ export default function BlackjackPage() {
 		Context.playerHandScoreSet(playerScore);
 	}, [Context.playerCardsState]);
 
-	const startGame = () => {
+	const startGame = async () => {
 		Context.runningSet(true);
 
 		const playerCardArray = [];
