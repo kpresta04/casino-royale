@@ -15,7 +15,6 @@ export default function BlackjackPage() {
 
 	useEffect(() => {
 		startGame();
-		// Context.dealerCardsSet(2);
 	}, []);
 
 	const getHandScore = (hand) => {
@@ -112,7 +111,7 @@ export default function BlackjackPage() {
 	return (
 		<div className="blackJackBoard">
 			<div className="dealerCards">
-				{dealerCardsState.map((card, index) => (
+				{Context.dealerCardsState.map((card, index) => (
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
@@ -120,7 +119,7 @@ export default function BlackjackPage() {
 			<div className="scoreBox">{<h2>Hand score: {playerHandScore}</h2>}</div>
 
 			<div className="playerCards">
-				{playerCardsState.map((card, index) => (
+				{Context.playerCardsState.map((card, index) => (
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
