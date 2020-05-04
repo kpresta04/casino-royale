@@ -39,33 +39,43 @@ export default function BlackjackPage() {
 	useEffect(() => {
 		const convertAces = () => {
 			//Make list of aces
+
+			const aceIndices = [];
 			let convertedHand = [...Context.playerCardsState];
 
 			//Convert 1 ace
+
 			convertedHand.forEach((card) => {
 				if (card.description === "Ace") {
-					card.points = 1;
-					// console.log(card.points);
+					aceIndices.push(convertedHand.indexOf(card));
 				}
 			});
 
-			console.log(convertedHand);
+			if (aceIndices.length > 0) {
+				convertedHand[aceIndices[0]].points = 1;
+			}
+
+			console.log(getHandScore(convertedHand));
 
 			//If score still over 21, convert all aces
-			// if (getHandScore(convertedHand) > 21) {
-			// 	for (const card of convertedHand) {
-			// 		card.points = 1;
-			// 	}
-			// }
+			if (getHandScore(convertedHand) > 21) {
+				for (const card of convertedHand) {
+					if (card.description === "Ace") {
+						card.points = 1;
+					}
+				}
+			}
 
 			// return convertedHand;
 		};
 		//Tracking score of player hand
 
 		let playerScore = getHandScore(Context.playerCardsState);
-		convertAces();
 
 		Context.playerHandScoreSet(playerScore);
+		if (Context.playerHandScore > 21) {
+			convertAces();
+		}
 	}, [Context.playerCardsState]);
 
 	const startGame = async () => {
