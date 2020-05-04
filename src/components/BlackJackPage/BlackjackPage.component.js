@@ -7,10 +7,10 @@ import BlackjackState from "../../context/BlackjackContext";
 
 export default function BlackjackPage() {
 	const Context = useContext(BlackjackState);
-	const [playerCardsState, playerCardsSet] = useState([]);
-	const [dealerCardsState, dealerCardsSet] = useState([]);
-	const [dealerHandScore, dealerHandScoreSet] = useState(0);
-	const [playerHandScore, playerHandScoreSet] = useState(0);
+	// const [playerCardsState, playerCardsSet] = useState([]);
+	// // const [dealerCardsState, dealerCardsSet] = useState([]);
+	// const [dealerHandScore, dealerHandScoreSet] = useState(0);
+	// const [playerHandScore, playerHandScoreSet] = useState(0);
 	// const [running, runningSet] = useState(false);
 
 	useEffect(() => {
@@ -38,13 +38,13 @@ export default function BlackjackPage() {
 	useEffect(() => {
 		//Tracking score of dealer hand
 
-		let dealerScore = getHandScore(dealerCardsState);
-		dealerHandScoreSet(dealerScore);
-	}, [dealerCardsState]);
+		let dealerScore = getHandScore(Context.dealerCardsState);
+		Context.dealerHandScoreSet(dealerScore);
+	}, [Context.dealerCardsState]);
 	useEffect(() => {
 		const convertAces = () => {
 			//Make list of aces
-			let convertedHand = [...playerCardsState];
+			let convertedHand = [...Context.playerCardsState];
 
 			//Convert 1 ace
 			convertedHand.forEach((card) => {
@@ -67,11 +67,11 @@ export default function BlackjackPage() {
 		};
 		//Tracking score of player hand
 
-		let playerScore = getHandScore(playerCardsState);
+		let playerScore = getHandScore(Context.playerCardsState);
 		convertAces();
 
-		playerHandScoreSet(playerScore);
-	}, [playerCardsState]);
+		Context.playerHandScoreSet(playerScore);
+	}, [Context.playerCardsState]);
 
 	const startGame = () => {
 		Context.runningSet(true);
@@ -91,7 +91,7 @@ export default function BlackjackPage() {
 		setter(cardArray);
 	};
 	const runDealerTurn = () => {
-		if (dealerHandScore <= 16) {
+		if (Context.dealerHandScore <= 16) {
 			// hit([dealerCardsState, dealerCardsSet]);
 
 			this.dealerScore = this.getHandScore(this.Dealer.hand1);
@@ -115,8 +115,12 @@ export default function BlackjackPage() {
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
-			<div className="scoreBox">{<h2>Hand score: {dealerHandScore}</h2>}</div>
-			<div className="scoreBox">{<h2>Hand score: {playerHandScore}</h2>}</div>
+			<div className="scoreBox">
+				{<h2>Hand score: {Context.dealerHandScore}</h2>}
+			</div>
+			<div className="scoreBox">
+				{<h2>Hand score: {Context.playerHandScore}</h2>}
+			</div>
 
 			<div className="playerCards">
 				{Context.playerCardsState.map((card, index) => (
@@ -131,7 +135,7 @@ export default function BlackjackPage() {
 					style={{ margin: "0 3em", height: "3em", width: "6em" }}
 					onClick={() => {
 						if (Context.running) {
-							hit([playerCardsState, playerCardsSet]);
+							hit([Context.playerCardsState, Context.playerCardsSet]);
 						}
 					}}
 				>
