@@ -34,6 +34,10 @@
 }
 
 .blackJackBoard {
+	font-family: "Walter Turncoat", cursive;
+	font-weight: 800;
+	background-color: rgb(209, 171, 92);
+	min-height: 100vh;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: repeat(3, 1fr);
