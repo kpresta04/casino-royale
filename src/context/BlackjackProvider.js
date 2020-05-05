@@ -4,10 +4,15 @@ import BlackjackContext from "./BlackjackContext";
 
 export default function BlackjackProvider(props) {
 	const [deck, setDeck] = useState(createDeck);
-	const [playerCardsState, playerCardsSet] = useState([]);
-	const [dealerCardsState, dealerCardsSet] = useState([]);
-	const [dealerHandScore, dealerHandScoreSet] = useState(0);
-	const [playerHandScore, playerHandScoreSet] = useState(0);
+	const [playerCardsState, playerCardsSet] = useState({
+		hand: [],
+		handScore: 0,
+	});
+	const [dealerCardsState, dealerCardsSet] = useState({
+		hand: [],
+		handScore: 0,
+	});
+
 	const [running, runningSet] = useState(false);
 	const context = {
 		deck,
@@ -16,10 +21,6 @@ export default function BlackjackProvider(props) {
 		playerCardsSet,
 		dealerCardsState,
 		dealerCardsSet,
-		dealerHandScore,
-		dealerHandScoreSet,
-		playerHandScore,
-		playerHandScoreSet,
 		running,
 		runningSet,
 	};

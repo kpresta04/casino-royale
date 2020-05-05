@@ -30,54 +30,61 @@ export default function BlackjackPage() {
 		return aceCount;
 	};
 
-	useEffect(() => {
-		//Tracking score of dealer hand
+	// useEffect(() => {
+	// 	//Tracking score of dealer hand
 
-		let dealerScore = getHandScore(Context.dealerCardsState);
-		Context.dealerHandScoreSet(dealerScore);
-	}, [Context.dealerCardsState]);
-	useEffect(() => {
-		const convertAces = () => {
-			//Make list of aces
+	// 	let dealerScore = getHandScore(Context.dealerCardsState);
+	// 	Context.dealerHandScoreSet(dealerScore);
+	// }, [Context.dealerCardsState]);
+	// useEffect(() => {
+	// 	const convertAces = () => {
+	// 		//Make list of aces
 
-			const aceIndices = [];
-			let convertedHand = [...Context.playerCardsState];
+	// 		const aceIndices = [];
+	// 		let convertedHand = [...Context.playerCardsState];
 
-			//Convert 1 ace
+	// 		//Convert 1 ace
 
-			convertedHand.forEach((card) => {
-				if (card.description === "Ace") {
-					aceIndices.push(convertedHand.indexOf(card));
-				}
-			});
+	// 		convertedHand.forEach((card) => {
+	// 			if (card.description === "Ace") {
+	// 				aceIndices.push(convertedHand.indexOf(card));
+	// 			}
+	// 		});
 
-			if (aceIndices.length > 0) {
-				convertedHand[aceIndices[0]].points = 1;
-			}
+	// 		if (aceIndices.length > 0) {
+	// 			convertedHand[aceIndices[0]].points = 1;
+	// 		}
 
-			console.log(getHandScore(convertedHand));
+	// 		console.log(getHandScore(convertedHand));
 
-			//If score still over 21, convert all aces
-			if (getHandScore(convertedHand) > 21) {
-				for (const card of convertedHand) {
-					if (card.description === "Ace") {
-						card.points = 1;
-					}
-				}
-			}
+	// 		//If score still over 21, convert all aces
+	// 		if (getHandScore(convertedHand) > 21) {
+	// 			for (const card of convertedHand) {
+	// 				if (card.description === "Ace") {
+	// 					card.points = 1;
+	// 				}
+	// 			}
+	// 		}
 
-			// return convertedHand;
-		};
-		//Tracking score of player hand
+	// 		// return convertedHand;
+	// 	};
+	// 	//Tracking score of player hand
 
-		let playerScore = getHandScore(Context.playerCardsState);
+	// 	let playerScore = getHandScore(Context.playerCardsState);
 
-		Context.playerHandScoreSet(playerScore);
-		if (Context.playerHandScore > 21) {
-			convertAces();
-		}
-	}, [Context.playerCardsState]);
+	// 	Context.playerHandScoreSet(playerScore);
+	// 	if (Context.playerHandScore > 21) {
+	// 		convertAces();
+	// 	}
+	// }, [Context.playerCardsState]);
+	const updateState = ([hand, setter] = []) => {
+		let score = getHandScore(hand);
 
+		setter({ hand, handScore: score });
+	};
+	// const deal =(num,deck)=>{
+
+	// }
 	const startGame = async () => {
 		Context.runningSet(true);
 
@@ -86,14 +93,14 @@ export default function BlackjackPage() {
 
 		Context.deck.deal(2, [playerCardArray, dealerCardArray]);
 
-		Context.playerCardsSet(playerCardArray);
-		Context.dealerCardsSet(dealerCardArray);
+		updateState([playerCardArray, Context.playerCardsSet]);
+		updateState([dealerCardArray, Context.dealerCardsSet]);
 	};
 
 	const hit = ([state, setter] = []) => {
-		let cardArray = [...state];
+		let cardArray = [...state.hand];
 		Context.deck.deal(1, [cardArray]);
-		setter(cardArray);
+		updateState([cardArray, setter]);
 	};
 	const runDealerTurn = () => {
 		if (Context.dealerHandScore <= 16) {
@@ -116,19 +123,19 @@ export default function BlackjackPage() {
 	return (
 		<div className="blackJackBoard">
 			<div className="dealerCards">
-				{Context.dealerCardsState.map((card, index) => (
+				{Context.dealerCardsState.hand.map((card, index) => (
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {Context.dealerHandScore}</h2>}
+				{<h2>Hand score: {Context.dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {Context.playerHandScore}</h2>}
+				{<h2>Hand score: {Context.playerCardsState.handScore}</h2>}
 			</div>
 
 			<div className="playerCards">
-				{Context.playerCardsState.map((card, index) => (
+				{Context.playerCardsState.hand.map((card, index) => (
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
