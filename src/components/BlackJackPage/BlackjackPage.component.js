@@ -105,7 +105,7 @@ export default function BlackjackPage() {
 				startGame();
 			},
 
-			1000
+			1500
 		);
 	};
 	const playerBusted = () => {
