@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import createDeck from "./scripts/createDeck";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button } from "@material-ui/core";
 import BlackjackState from "../../context/BlackjackContext";
-
 export default function BlackjackPage() {
 	const Context = useContext(BlackjackState);
 
@@ -37,37 +35,34 @@ export default function BlackjackPage() {
 	// 	Context.dealerHandScoreSet(dealerScore);
 	// }, [Context.dealerCardsState]);
 	// useEffect(() => {
-	// 	const convertAces = () => {
-	// 		//Make list of aces
+	const convertAces = (cardArray) => {
+		//Make list of aces
 
-	// 		const aceIndices = [];
-	// 		let convertedHand = [...Context.playerCardsState];
+		const aceIndices = [];
 
-	// 		//Convert 1 ace
+		//Convert 1 ace
 
-	// 		convertedHand.forEach((card) => {
-	// 			if (card.description === "Ace") {
-	// 				aceIndices.push(convertedHand.indexOf(card));
-	// 			}
-	// 		});
+		cardArray.forEach((card) => {
+			if (card.description === "Ace") {
+				aceIndices.push(cardArray.indexOf(card));
+			}
+		});
 
-	// 		if (aceIndices.length > 0) {
-	// 			convertedHand[aceIndices[0]].points = 1;
-	// 		}
+		if (aceIndices.length > 0) {
+			cardArray[aceIndices[0]].points = 1;
+		}
 
-	// 		console.log(getHandScore(convertedHand));
+		//If score still over 21, convert all aces
+		if (getHandScore(cardArray) > 21) {
+			for (const card of cardArray) {
+				if (card.description === "Ace") {
+					card.points = 1;
+				}
+			}
+		}
 
-	// 		//If score still over 21, convert all aces
-	// 		if (getHandScore(convertedHand) > 21) {
-	// 			for (const card of convertedHand) {
-	// 				if (card.description === "Ace") {
-	// 					card.points = 1;
-	// 				}
-	// 			}
-	// 		}
-
-	// 		// return convertedHand;
-	// 	};
+		return cardArray;
+	};
 	// 	//Tracking score of player hand
 
 	// 	let playerScore = getHandScore(Context.playerCardsState);
@@ -86,20 +81,51 @@ export default function BlackjackPage() {
 
 	// }
 	const startGame = async () => {
-		Context.runningSet(true);
+		if (!Context.running) {
+			Context.runningSet(true);
+		}
+		await Context.deck.reset();
+		await Context.deck.shuffle();
 
 		const playerCardArray = [];
 		const dealerCardArray = [];
 
-		Context.deck.deal(2, [playerCardArray, dealerCardArray]);
+		await Context.deck.deal(2, [playerCardArray, dealerCardArray]);
+
+		// await Context.deck.deal(2, [playerCardArray, dealerCardArray]);
 
 		updateState([playerCardArray, Context.playerCardsSet]);
 		updateState([dealerCardArray, Context.dealerCardsSet]);
 	};
 
+	const resetGame = async () => {
+		setTimeout(
+			() => {
+				startGame();
+			},
+
+			1000
+		);
+	};
+	const playerBusted = () => {
+		console.log("You busted!");
+		resetGame();
+	};
 	const hit = ([state, setter] = []) => {
 		let cardArray = [...state.hand];
 		Context.deck.deal(1, [cardArray]);
+
+		//check if score over 21
+		if (getHandScore(cardArray) > 21 && countAces(cardArray) > 0) {
+			//Do we need to convert aces?
+
+			cardArray = convertAces(cardArray);
+		}
+
+		if (getHandScore(cardArray) > 21) {
+			playerBusted();
+		}
+
 		updateState([cardArray, setter]);
 	};
 	const runDealerTurn = () => {
