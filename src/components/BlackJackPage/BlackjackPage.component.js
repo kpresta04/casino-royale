@@ -1,11 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button } from "@material-ui/core";
-import BlackjackState from "../../context/BlackjackContext";
+import createDeck from "./scripts/createDeck";
 
 export default function BlackjackPage() {
-	const Context = useContext(BlackjackState);
+	// const Context = useContext(BlackjackState);
+	const [deck, setDeck] = useState(createDeck);
+	const [playerCardsState, playerCardsSet] = useState({
+		hand: [],
+		handScore: 0,
+	});
+	const [dealerCardsState, dealerCardsSet] = useState({
+		hand: [],
+		handScore: 0,
+	});
+
+	const [running, runningSet] = useState(false);
 
 	useEffect(() => {
 		startGame();
@@ -82,21 +93,21 @@ export default function BlackjackPage() {
 
 	// }
 	const startGame = async () => {
-		if (!Context.running) {
-			Context.runningSet(true);
+		if (!running) {
+			runningSet(true);
 		}
-		await Context.deck.reset();
-		await Context.deck.shuffle();
+		await deck.reset();
+		await deck.shuffle();
 
 		const playerCardArray = [];
 		const dealerCardArray = [];
 
-		await Context.deck.deal(2, [playerCardArray, dealerCardArray]);
+		await deck.deal(2, [playerCardArray, dealerCardArray]);
 
-		// await Context.deck.deal(2, [playerCardArray, dealerCardArray]);
+		// await deck.deal(2, [playerCardArray, dealerCardArray]);
 
-		updateState([playerCardArray, Context.playerCardsSet]);
-		updateState([dealerCardArray, Context.dealerCardsSet]);
+		updateState([playerCardArray, playerCardsSet]);
+		updateState([dealerCardArray, dealerCardsSet]);
 	};
 
 	const resetGame = async () => {
@@ -114,7 +125,7 @@ export default function BlackjackPage() {
 	};
 	const hit = ([state, setter] = []) => {
 		let cardArray = [...state.hand];
-		Context.deck.deal(1, [cardArray]);
+		deck.deal(1, [cardArray]);
 
 		//check if score over 21
 		if (getHandScore(cardArray) > 21 && countAces(cardArray) > 0) {
@@ -130,7 +141,7 @@ export default function BlackjackPage() {
 		updateState([cardArray, setter]);
 	};
 	const runDealerTurn = () => {
-		if (Context.dealerHandScore <= 16) {
+		if (dealerCardsState.handScore <= 16) {
 			// hit([dealerCardsState, dealerCardsSet]);
 
 			this.dealerScore = this.getHandScore(this.Dealer.hand1);
@@ -139,7 +150,7 @@ export default function BlackjackPage() {
 				this.convertAces(this.Dealer.hand1);
 				this.dealerScore = this.getHandScore(this.Dealer.hand1);
 			}
-			// $(".Context.dealerHandScore").text(`Hand Score: ${this.dealerScore}`);
+			// $(".dealerHandScore").text(`Hand Score: ${this.dealerScore}`);
 
 			setTimeout(() => this.runDealerTurn(), 1000);
 		} else {
@@ -150,19 +161,19 @@ export default function BlackjackPage() {
 	return (
 		<div className="blackJackBoard">
 			<div className="dealerCards">
-				{Context.dealerCardsState.hand.map((card, index) => (
+				{dealerCardsState.hand.map((card, index) => (
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {Context.dealerCardsState.handScore}</h2>}
+				{<h2>Hand score: {dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {Context.playerCardsState.handScore}</h2>}
+				{<h2>Hand score: {playerCardsState.handScore}</h2>}
 			</div>
 
 			<div className="playerCards">
-				{Context.playerCardsState.hand.map((card, index) => (
+				{playerCardsState.hand.map((card, index) => (
 					<PlayingCard key={index} shortString={card.shortString} />
 				))}
 			</div>
@@ -173,8 +184,8 @@ export default function BlackjackPage() {
 					color="primary"
 					style={{ margin: "0 3em", height: "3em", width: "6em" }}
 					onClick={() => {
-						if (Context.running) {
-							hit([Context.playerCardsState, Context.playerCardsSet]);
+						if (running) {
+							hit([playerCardsState, playerCardsSet]);
 						}
 					}}
 				>
