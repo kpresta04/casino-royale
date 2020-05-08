@@ -9,6 +9,7 @@ const dealer = "dealer";
 export default function BlackjackPage() {
 	// const Context = useContext(BlackjackState)
 	const [announceText, setAnnounceText] = useState("");
+
 	const [deck, setDeck] = useState(createDeck);
 	const [playerCardsState, playerCardsSet] = useState({
 		hand: [],
@@ -95,10 +96,10 @@ export default function BlackjackPage() {
 	// 		convertAces();
 	// 	}
 	// }, [Context.playerCardsState]);
-	const updateState = (hand, setter) => {
+	const updateState = async (hand, setter) => {
 		let score = getHandScore(hand);
 
-		setter({ hand, handScore: score });
+		await setter({ hand, handScore: score });
 	};
 	// const deal =(num,deck)=>{
 
@@ -107,6 +108,7 @@ export default function BlackjackPage() {
 		runningSet(true);
 
 		setAnnounceText("");
+
 		await deck.reset();
 		await deck.shuffle();
 		await resetAces();
@@ -161,8 +163,8 @@ export default function BlackjackPage() {
 		}
 		resetGame();
 	};
-	const hit = ([state, setter, player] = []) => {
-		let cardArray = [...state.hand];
+	const hit = async (hand) => {
+		let cardArray = [...hand];
 		deck.deal(1, [cardArray]);
 
 		//check if score over 21
@@ -172,27 +174,37 @@ export default function BlackjackPage() {
 			cardArray = convertAces(cardArray);
 		}
 
-		if (getHandScore(cardArray) > 21) {
-			playerBusted(player);
-		}
-
-		updateState(cardArray, setter);
 		return cardArray;
 	};
-	const runDealerTurn = async () => {
-		if (dealerCardsState.handScore <= 16) {
-			let newHand = await hit([dealerCardsState, dealerCardsSet, dealer]);
+	const runDealerTurn = async (dealerState = dealerCardsState) => {
+		if (dealerState.handScore <= 16) {
+			let newHand = await hit(dealerState.hand);
+			let newHandScore = await getHandScore(newHand);
+			const newState = { hand: newHand, handScore: newHandScore };
 
-			if (getHandScore(newHand) <= 16) {
-				setTimeout(() => runDealerTurn(), 1500);
+			// dealerCardsSet(newState);
+			updateState(newHand, dealerCardsSet);
+			if (newHandScore <= 16) {
+				setTimeout(() => runDealerTurn(newState), 1500);
+			} else if (newHandScore > 21) {
+				playerBusted(dealer);
+			} else {
+				//check for winner
+				console.log("Checking winner");
 			}
 		}
 	};
 	const stand = () => {
-		runningSet(false);
+		// runningSet(false);
 		runDealerTurn();
 	};
-
+	const runPlayerTurn = async () => {
+		const newHand = await hit(playerCardsState.hand);
+		updateState(newHand, playerCardsSet);
+		if (getHandScore(newHand) > 21) {
+			playerBusted(human);
+		}
+	};
 	return (
 		<div className="blackJackBoard">
 			<div className="dealerCards">
@@ -205,7 +217,7 @@ export default function BlackjackPage() {
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {!running && dealerCardsState.handScore}</h2>}
+				{<h2>Hand score: {dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
 				{<h2>Hand score: {playerCardsState.handScore}</h2>}
@@ -229,7 +241,7 @@ export default function BlackjackPage() {
 					style={{ margin: "0 3em", height: "3em", width: "6em" }}
 					onClick={() => {
 						if (running) {
-							hit([playerCardsState, playerCardsSet, human]);
+							runPlayerTurn();
 						}
 					}}
 				>
@@ -239,7 +251,7 @@ export default function BlackjackPage() {
 				<Button
 					style={{ margin: "0 3em", height: "3em", width: "6em" }}
 					variant="contained"
-					disabled={!running}
+					// disabled={!running}
 					onClick={() => {
 						if (running) {
 							stand();
