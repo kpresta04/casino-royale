@@ -1,15 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button } from "@material-ui/core";
-import BlackjackState from "../../context/BlackjackContext";
+import createDeck from "./scripts/createDeck";
 
+const human = "human";
+const dealer = "dealer";
 export default function BlackjackPage() {
-	const Context = useContext(BlackjackState);
+	// const Context = useContext(BlackjackState)
+	const [announceText, setAnnounceText] = useState("");
+
+	const [deck, setDeck] = useState(createDeck);
+	const [playerCardsState, playerCardsSet] = useState({
+		hand: [],
+		handScore: 0,
+	});
+	const [dealerCardsState, dealerCardsSet] = useState({
+		hand: [],
+		handScore: 0,
+	});
+
+	const [running, runningSet] = useState(false);
 
 	useEffect(() => {
 		startGame();
 	}, []);
+
+	const resetAces = () => {
+		for (const card of deck.cards) {
+			if (card.description === "Ace") {
+				card.points = 11;
+			}
+		}
+	};
 
 	const getHandScore = (hand) => {
 		// Gets the score of each card
@@ -54,7 +77,7 @@ export default function BlackjackPage() {
 		}
 
 		//If score still over 21, convert all aces
-		if (getHandScore(cardArray) > 21) {
+		if (getHandScore(cardArray) >= 22) {
 			for (const card of cardArray) {
 				if (card.description === "Ace") {
 					card.points = 1;
@@ -73,30 +96,53 @@ export default function BlackjackPage() {
 	// 		convertAces();
 	// 	}
 	// }, [Context.playerCardsState]);
-	const updateState = ([hand, setter] = []) => {
+	const updateState = async (hand, setter) => {
 		let score = getHandScore(hand);
 
-		setter({ hand, handScore: score });
+		await setter({ hand, handScore: score });
 	};
 	// const deal =(num,deck)=>{
 
 	// }
 	const startGame = async () => {
-		if (!Context.running) {
-			Context.runningSet(true);
-		}
-		await Context.deck.reset();
-		await Context.deck.shuffle();
+		runningSet(true);
+
+		setAnnounceText("");
+
+		await deck.reset();
+		await deck.shuffle();
+		await resetAces();
 
 		const playerCardArray = [];
 		const dealerCardArray = [];
 
-		await Context.deck.deal(2, [playerCardArray, dealerCardArray]);
+		await deck.deal(2, [playerCardArray, dealerCardArray]);
 
-		// await Context.deck.deal(2, [playerCardArray, dealerCardArray]);
+		await updateState(playerCardArray, playerCardsSet);
+		await updateState(dealerCardArray, dealerCardsSet);
+		dealerCardsState.handScore = getHandScore(dealerCardArray);
+		playerCardsState.handScore = getHandScore(playerCardArray);
 
-		updateState([playerCardArray, Context.playerCardsSet]);
-		updateState([dealerCardArray, Context.dealerCardsSet]);
+		//Check for naturals
+		if (
+			playerCardsState.handScore === 21 &&
+			dealerCardsState.handScore !== 21
+		) {
+			setAnnounceText("You got a natural!");
+			resetGame();
+		} else if (
+			playerCardsState.handScore !== 21 &&
+			dealerCardsState.handScore === 21
+		) {
+			setAnnounceText("Dealer scored a natural.");
+			resetGame();
+		} else if (
+			playerCardsState.handScore === 21 &&
+			dealerCardsState.handScore === 21
+		) {
+			setAnnounceText("You both scored naturals");
+			resetGame();
+		}
 	};
 
 	const resetGame = async () => {
@@ -108,64 +154,97 @@ export default function BlackjackPage() {
 			1500
 		);
 	};
-	const playerBusted = () => {
-		console.log("You busted!");
+	const playerBusted = (player) => {
+		runningSet(false);
+		if (player === human) {
+			setAnnounceText("You busted!");
+		} else {
+			setAnnounceText("Dealer busted");
+		}
 		resetGame();
 	};
-	const hit = ([state, setter] = []) => {
-		let cardArray = [...state.hand];
-		Context.deck.deal(1, [cardArray]);
+	const hit = async (hand) => {
+		let cardArray = [...hand];
+		deck.deal(1, [cardArray]);
 
 		//check if score over 21
-		if (getHandScore(cardArray) > 21 && countAces(cardArray) > 0) {
+		if (getHandScore(cardArray) >= 22 && countAces(cardArray) > 0) {
 			//Do we need to convert aces?
 
 			cardArray = convertAces(cardArray);
 		}
 
-		if (getHandScore(cardArray) > 21) {
-			playerBusted();
-		}
-
-		updateState([cardArray, setter]);
+		return cardArray;
 	};
-	const runDealerTurn = () => {
-		if (Context.dealerHandScore <= 16) {
-			// hit([dealerCardsState, dealerCardsSet]);
+	const runDealerTurn = async (dealerState = dealerCardsState) => {
+		if (dealerState.handScore <= 16) {
+			let newHand = await hit(dealerState.hand);
+			let newHandScore = await getHandScore(newHand);
+			const newState = { hand: newHand, handScore: newHandScore };
 
-			this.dealerScore = this.getHandScore(this.Dealer.hand1);
-			this.dealerStrings = this.getHandStrings(this.Dealer.hand1);
-			if (this.dealerScore > 21 && this.countAces(this.Dealer.hand1) > 0) {
-				this.convertAces(this.Dealer.hand1);
-				this.dealerScore = this.getHandScore(this.Dealer.hand1);
+			// dealerCardsSet(newState);
+			updateState(newHand, dealerCardsSet);
+			if (newHandScore <= 21) {
+				setTimeout(() => runDealerTurn(newState), 1500);
+			} else {
+				//bust
+				playerBusted(dealer);
 			}
-			// $(".Context.dealerHandScore").text(`Hand Score: ${this.dealerScore}`);
-
-			setTimeout(() => this.runDealerTurn(), 1000);
 		} else {
-			// checkForWinner();
+			checkWinner(dealerState);
 		}
 	};
-
+	const stand = () => {
+		// runningSet(false);
+		runDealerTurn();
+	};
+	const runPlayerTurn = async () => {
+		const newHand = await hit(playerCardsState.hand);
+		updateState(newHand, playerCardsSet);
+		if (getHandScore(newHand) > 21) {
+			playerBusted(human);
+		}
+	};
+	const checkWinner = (dealerState) => {
+		if (playerCardsState.handScore === dealerState.handScore) {
+			setAnnounceText("Round tied");
+			resetGame();
+		} else if (playerCardsState.handScore > dealerState.handScore) {
+			setAnnounceText("You win!");
+			resetGame();
+		} else {
+			setAnnounceText("Dealer won");
+			resetGame();
+		}
+	};
 	return (
 		<div className="blackJackBoard">
 			<div className="dealerCards">
-				{Context.dealerCardsState.hand.map((card, index) => (
-					<PlayingCard key={index} shortString={card.shortString} />
+				{dealerCardsState.hand.map((card, index) => (
+					<PlayingCard
+						key={index}
+						shortString={card.shortString}
+						player={dealer}
+					/>
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {Context.dealerCardsState.handScore}</h2>}
+				{<h2>Hand score: {dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {Context.playerCardsState.handScore}</h2>}
+				{<h2>Hand score: {playerCardsState.handScore}</h2>}
 			</div>
 
 			<div className="playerCards">
-				{Context.playerCardsState.hand.map((card, index) => (
-					<PlayingCard key={index} shortString={card.shortString} />
+				{playerCardsState.hand.map((card, index) => (
+					<PlayingCard
+						key={index}
+						shortString={card.shortString}
+						player={human}
+					/>
 				))}
 			</div>
+			<h1 id="announce-text">{announceText}</h1>
 			<div className="playerButtons">
 				<Button
 					id="hit-button"
@@ -173,8 +252,8 @@ export default function BlackjackPage() {
 					color="primary"
 					style={{ margin: "0 3em", height: "3em", width: "6em" }}
 					onClick={() => {
-						if (Context.running) {
-							hit([Context.playerCardsState, Context.playerCardsSet]);
+						if (running) {
+							runPlayerTurn();
 						}
 					}}
 				>
@@ -184,6 +263,12 @@ export default function BlackjackPage() {
 				<Button
 					style={{ margin: "0 3em", height: "3em", width: "6em" }}
 					variant="contained"
+					// disabled={!running}
+					onClick={() => {
+						if (running) {
+							stand();
+						}
+					}}
 				>
 					STAND
 				</Button>
