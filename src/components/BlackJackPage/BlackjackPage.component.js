@@ -184,14 +184,14 @@ export default function BlackjackPage() {
 
 			// dealerCardsSet(newState);
 			updateState(newHand, dealerCardsSet);
-			if (newHandScore <= 16) {
+			if (newHandScore <= 21) {
 				setTimeout(() => runDealerTurn(newState), 1500);
-			} else if (newHandScore > 21) {
-				playerBusted(dealer);
 			} else {
-				//check for winner
-				console.log("Checking winner");
+				//bust
+				playerBusted(dealer);
 			}
+		} else {
+			checkWinner(dealerState);
 		}
 	};
 	const stand = () => {
@@ -203,6 +203,18 @@ export default function BlackjackPage() {
 		updateState(newHand, playerCardsSet);
 		if (getHandScore(newHand) > 21) {
 			playerBusted(human);
+		}
+	};
+	const checkWinner = (dealerState) => {
+		if (playerCardsState.handScore === dealerState.handScore) {
+			setAnnounceText("Round tied");
+			resetGame();
+		} else if (playerCardsState.handScore > dealerState.handScore) {
+			setAnnounceText("You win!");
+			resetGame();
+		} else {
+			setAnnounceText("Dealer won");
+			resetGame();
 		}
 	};
 	return (
