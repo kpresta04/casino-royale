@@ -195,7 +195,7 @@ export default function BlackjackPage() {
 		}
 	};
 	const stand = () => {
-		// runningSet(false);
+		runningSet(false);
 		runDealerTurn();
 	};
 	const runPlayerTurn = async () => {
@@ -229,7 +229,7 @@ export default function BlackjackPage() {
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {dealerCardsState.handScore}</h2>}
+				{<h2>Hand score: {!running && dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
 				{<h2>Hand score: {playerCardsState.handScore}</h2>}
@@ -250,7 +250,7 @@ export default function BlackjackPage() {
 					id="hit-button"
 					variant="contained"
 					color="primary"
-					style={{ margin: "0 3em", height: "3em", width: "6em" }}
+					style={{ margin: "0 3em", height: "3em", width: "7em" }}
 					onClick={() => {
 						if (running) {
 							runPlayerTurn();
@@ -261,7 +261,7 @@ export default function BlackjackPage() {
 				</Button>
 
 				<Button
-					style={{ margin: "0 3em", height: "3em", width: "6em" }}
+					style={{ margin: "0 3em", height: "3em", width: "7em" }}
 					variant="contained"
 					// disabled={!running}
 					onClick={() => {
