@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Nixie+One');
+
 .App {
   text-align: center;
 }
@@ -14,12 +16,38 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: orange;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: 'Nixie One', sans-serif;
+  font-weight: bolder;
+  font-size: calc(50px + 2vmin);
+  color: white;
+}
+
+.Blackjack {
+  background-color: #3a5faa;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nixie One', sans-serif;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Slots {
+  background-color: #4af308;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nixie One', sans-serif;
   font-size: calc(10px + 2vmin);
   color: white;
 }
