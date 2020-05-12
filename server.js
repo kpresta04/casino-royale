@@ -1,76 +1,88 @@
-var express = require('express')
-var app = express()
-var passport = require('passport')
-var session = require('express-session')
-var bodyParser = require('body-parser')
-// var env = require('dotenv').load()
-var exphbs = require('express-handlebars')
-
- 
- 
-//For BodyParser
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+// Loading evnironmental variables here
+if (process.env.NODE_ENV !== "production") {
+	console.log("loading dev environments");
+	require("dotenv").config();
+}
+require("dotenv").config();
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const dbConnection = require("./db"); // loads our connection to the mongo database
+const passport = require("./passport");
+const app = express();
+const PORT = process.env.PORT || 8080;
+const publicPath = path.join(__dirname, "..", "public");
+// ===== Middleware ====
+app.use(morgan("dev"));
+app.use(
+	bodyParser.urlencoded({
+		extended: false,
+	})
+);
 app.use(bodyParser.json());
- 
- 
-// For Passport
-app.use(session({
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true
-})); // session secret
+app.use(
+	session({
+		secret: process.env.APP_SECRET || "this is the default passphrase",
+		store: new MongoStore({ mongooseConnection: dbConnection }),
+		resave: false,
+		saveUninitialized: false,
+	})
+);
+
+// ===== Passport ====
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
- 
- 
-//For Handlebars
-app.set('views', './app/views')
-app.engine('hbs', exphbs({
-    extname: '.hbs'
-}));
-app.set('view engine', '.hbs');
- 
- 
- 
-app.get('/', function(req, res) {
- 
-    res.send('Welcome to Passport with Sequelize');
- 
-});
- 
-//Models
-var models = require("./app/models");
+app.use(passport.session()); // will call the deserializeUser
 
-var authRoute = require('./app/routes/auth.js')(app,passport);
- 
+// ===== testing middleware =====
+// app.use(function(req, res, next) {
+// 	console.log('===== passport user =======')
+// 	console.log(req.session)
+// 	console.log(req.user)
+// 	console.log('===== END =======')
+// 	next()
+// })
+// testing
+// app.get(
+// 	'/auth/google/callback',
+// 	(req, res, next) => {
+// 		console.log(`req.user: ${req.user}`)
+// 		console.log('======= /auth/google/callback was called! =====')
+// 		next()
+// 	},
+// 	passport.authenticate('google', { failureRedirect: '/login' }),
+// 	(req, res) => {
+// 		res.redirect('/')
+// 	}
+// )
 
-//load passport strategies
- 
-require('./app/config/passport/passport.js')(passport, models.user);
- 
- 
-//Sync Database
- 
-models.sequelize.sync().then(function() {
- 
-    console.log('Nice! Database looks fine')
- 
- 
-}).catch(function(err) {
- 
-    console.log(err, "Something went wrong with the Database Update!")
- 
+// ==== if its production environment!
+if (process.env.NODE_ENV === "production") {
+	const path = require("path");
+	console.log("YOU ARE IN THE PRODUCTION ENV");
+	app.use("/static", express.static(path.join(__dirname, "../build/static")));
+	app.get("/", (req, res) => {
+		res.sendFile(path.join(__dirname, "../build/"));
+	});
+}
+
+/* Express app ROUTING */
+app.use("/auth", require("./auth"));
+app.use(express.static(publicPath));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(publicPath, "index.html"));
 });
- 
- 
-app.listen(5000, function(err) {
- 
-    if (!err)
- 
-        console.log("Site is live");
-         
-    else console.log(err)
- 
+// ====== Error handler ====
+app.use(function (err, req, res, next) {
+	console.log("====== ERROR =======");
+	console.error(err.stack);
+	res.status(500);
+});
+
+// ==== Starting Server =====
+app.listen(PORT, () => {
+	console.log(`App listening on PORT: ${PORT}`);
 });
