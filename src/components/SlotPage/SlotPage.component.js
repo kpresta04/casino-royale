@@ -1,6 +1,8 @@
 import React from 'react';
 var ReactDOM = require('react-dom');
 
+export default function SlotPage() {
+
 var _createClass = function() {
   function defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -316,3 +318,5 @@ function runApp() {
 }
 
 runApp();
+
+}

@@ -16,12 +16,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Main></Main>
+        <Main className="logo"></Main>
         <div className="mb-2">
-        <Button size="large" variant="contained" color="primary" href="/signin">
+        <Button className="mainbtn" size="large" variant="outlined" color="secondary" href="/signin">
           Sign In
         </Button>
-        <Button size="large" variant="contained" color="primary" href="/signup">
+        <Button className="mainbtn" size="large" variant="outlined" color="secondary" href="/signup">
           Sign Up
         </Button>
         
@@ -29,12 +29,12 @@ function App() {
       </header>
       <a href="/blackjack">
       <div className="Blackjack">
-        blackjack pic
+        blackjack pic place holder
       </div>
       </a>
       <a href="https://johnfranke.github.io/slot-machine-rough-draft/">
       <div className="Slots">
-        slots pic
+        slots pic place holder
       </div>
       </a>
     </div>

@@ -5,7 +5,8 @@ function Main() {
       <main id="home">
       <div className="row banner">
          <div className="banner-text">
-            <h1 className="responsive-headline">CASINO ROYALE</h1>
+            <h1 className="logo"><b>CAS<span>IN</span>O ROY<span>A</span>LE</b>
+            </h1>
             <hr />
          </div>
       </div>
