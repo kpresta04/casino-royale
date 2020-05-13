@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Nixie+One');
+/* @import url('https://fonts.googleapis.com/css?family=Nixie+One'); */
+
+
+@import 'https://fonts.googleapis.com/css?family=Dosis';
 
 .App {
   text-align: center;
@@ -16,7 +19,9 @@
 }
 
 .App-header {
-  background-color: orange;
+  background: #112 url(//images.weserv.nl/?url=i.imgur.com/6QJjYMe.jpg)  center no-repeat;
+  background-size:cover;
+  margin:0;
   min-height: 75vh;
   display: flex;
   flex-direction: column;
@@ -24,8 +29,70 @@
   justify-content: center;
   font-family: 'Nixie One', sans-serif;
   font-weight: bolder;
-  font-size: calc(50px + 2vmin);
+  font-size: calc(75px + 2vmin);
   color: white;
+}
+
+/* .mainbtn {
+  top: 80px;
+  position: relative;
+} */
+
+.logo {
+  text-align: center;
+  height: auto;
+  width: auto;
+  margin: auto;
+  top: 100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  user-select: none;
+}
+
+.logo b{
+  font: 400 12vh "Dosis";
+  color: #fee;
+  text-shadow: 0 -10px 100px, 0 0 2px, 0 0 1em hsl(204, 100%, 66%), 0 0 0.5em hsl(204, 100%, 66%), 0 0 0.1em hsl(204, 100%, 66%), 0 10px 3px #000;
+}
+.logo b span{
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
+}
+@keyframes blink {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  79%{
+     color: #333;
+  }
+  80% {
+    
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
 }
 
 .Blackjack {
