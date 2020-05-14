@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 function Copyright() {
 	return (
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
 	const classes = useStyles();
 	const [userData, userDataSet] = useState({
 		email: "",
@@ -53,22 +54,17 @@ export default function SignUp() {
 		lastName: "",
 		password: "",
 	});
-	useEffect(() => {
-		axios.get("/auth/user").then(function (response) {
-			// handle success
-			console.log(response);
-		});
-	}, []);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		axios
-			.post("/auth/signup", {
-				username: userData.email,
-				password: userData.password,
-			})
-			.then(function (response) {
-				console.log(response);
-			});
+		// axios
+		// 	.post("/auth/signup", {
+		// 		username: userData.email,
+		// 		password: userData.password,
+		// 	})
+		// 	.then(function (response) {
+		// 		console.log(response);
+		// 	});
 	};
 
 	return (
@@ -140,10 +136,25 @@ export default function SignUp() {
 					<Button
 						type="submit"
 						fullWidth
+						style={{ marginTop: "2em" }}
 						variant="contained"
 						color="primary"
-						>
-						Sign Up
+					>
+						Sign Up with Email
+					</Button>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						style={{ margin: "1em auto" }}
+						onClick={async (e) => {
+							e.preventDefault();
+							await signInWithGoogle();
+							setTimeout(props.history.push("/"), 2000);
+						}}
+					>
+						Sign Up with Google
 					</Button>
 					<Grid container justify="flex-end">
 						<Grid item>
