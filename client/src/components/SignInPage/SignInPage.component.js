@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { signInWithGoogle } from "../../firebase/firebase.utils";
 
 function Copyright() {
 	return (
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
 	const classes = useStyles();
 
 	return (
@@ -92,8 +93,23 @@ export default function SignIn() {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
+						onClick={(e) => e.preventDefault()}
 					>
 						Sign In
+					</Button>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						style={{ marginBottom: "1em " }}
+						onClick={async (e) => {
+							e.preventDefault();
+							await signInWithGoogle();
+							setTimeout(props.history.push("/"), 2000);
+						}}
+					>
+						Sign In with Google
 					</Button>
 					<Grid container>
 						<Grid item xs>
@@ -102,7 +118,7 @@ export default function SignIn() {
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2">
+							<Link href="/signup" variant="body2">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
