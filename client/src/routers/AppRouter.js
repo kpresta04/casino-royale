@@ -5,18 +5,19 @@ import SlotPage from "../components/SlotPage/SlotPage.component";
 import SignUpPage from "../components/SignUpPage/SignUpPage.component";
 import SignInPage from "../components/SignInPage/SignInPage.component";
 import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
+import { setUser } from "../actions/setUser";
+import { connect } from "react-redux";
 
 import App from "../App";
 
-export default function AppRouter() {
+function AppRouter(props) {
 	const [currentUser, currentUserSet] = useState(null);
 
 	let unsubscribeFromAuth = null;
 
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
-			currentUserSet(user);
-			console.log(user);
+			props.dispatch(setUser(user));
 		});
 		unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
 			if (userAuth) {
@@ -55,3 +56,11 @@ export default function AppRouter() {
 		</BrowserRouter>
 	);
 }
+
+const mapStateToProps = (state) => {
+	return {
+		user: state.user,
+	};
+};
+
+export default connect(mapStateToProps)(AppRouter);

@@ -93,6 +93,7 @@ export default function SignIn() {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
+						onClick={(e) => e.preventDefault()}
 					>
 						Sign In
 					</Button>
@@ -102,7 +103,10 @@ export default function SignIn() {
 						variant="contained"
 						color="primary"
 						style={{ marginBottom: "1em " }}
-						onClick={() => signInWithGoogle()}
+						onClick={(e) => {
+							e.preventDefault();
+							signInWithGoogle();
+						}}
 					>
 						Sign Up with Google
 					</Button>
