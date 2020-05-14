@@ -39,8 +39,12 @@
 	font-family: 'Nixie One', sans-serif;
 	font-size: calc(8px + 1vmin);
 	color: white;
-	background-color: #1cb45e;
-	background-image: linear-gradient(148deg, #000000 0%, #1cb45e 90%,);
+	height: 100vh;
+	margin: 0;
+	background: radial-gradient(#34b445, #000000);
+	background-repeat: no-repeat;
+	// background-color: #1cb45e;
+	// background-image: linear-gradient(148deg, #000000 0%, #1cb45e 90%,);
 	// background: #065506;
 	min-height: 100vh;
 	display: grid;
