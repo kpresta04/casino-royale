@@ -53,12 +53,7 @@ export default function SignUp() {
 		lastName: "",
 		password: "",
 	});
-	useEffect(() => {
-		axios.get("/auth/user").then(function (response) {
-			// handle success
-			console.log(response);
-		});
-	}, []);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		axios
