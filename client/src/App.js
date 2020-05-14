@@ -29,7 +29,7 @@ function App(props) {
 							color="secondary"
 							onClick={() => {
 								auth.signOut();
-								props.dispatch(setUser(null));
+								// props.dispatch(setUser(null));
 							}}
 						>
 							Sign Out
