@@ -23,7 +23,7 @@ provider.setCustomParameters({ prompt: "select_account" });
 
 export const signInWithEmail = (email) =>
 	auth
-		.sendSignInLinkToEmail(email, actionCodeSettings)
+		.sendSignInLinkToEmail(email)
 		.then(function () {
 			// The link was successfully sent. Inform the user.
 			// Save the email locally so you don't need to ask the user for it again
