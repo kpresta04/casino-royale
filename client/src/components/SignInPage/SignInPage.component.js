@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
 	const classes = useStyles();
 
 	return (
@@ -103,12 +103,13 @@ export default function SignIn() {
 						variant="contained"
 						color="primary"
 						style={{ marginBottom: "1em " }}
-						onClick={(e) => {
+						onClick={async (e) => {
 							e.preventDefault();
-							signInWithGoogle();
+							await signInWithGoogle();
+							setTimeout(props.history.push("/"), 2000);
 						}}
 					>
-						Sign Up with Google
+						Sign In with Google
 					</Button>
 					<Grid container>
 						<Grid item xs>

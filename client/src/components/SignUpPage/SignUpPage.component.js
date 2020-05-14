@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
 	const classes = useStyles();
 	const [userData, userDataSet] = useState({
 		email: "",
@@ -148,7 +148,11 @@ export default function SignUp() {
 						variant="contained"
 						color="primary"
 						style={{ margin: "1em auto" }}
-						onClick={() => signInWithGoogle()}
+						onClick={async (e) => {
+							e.preventDefault();
+							await signInWithGoogle();
+							setTimeout(props.history.push("/"), 2000);
+						}}
 					>
 						Sign Up with Google
 					</Button>
