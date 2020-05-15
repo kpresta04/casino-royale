@@ -90,6 +90,7 @@ export default function SignUp(props) {
 				password: "",
 				confirmPassword: "",
 			});
+			setTimeout(props.history.push("/"), 2000);
 		} catch (error) {
 			setError({ message: error.message });
 		}
