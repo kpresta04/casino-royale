@@ -11,7 +11,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import {
+	auth,
+	createUserProfileDocument,
+	signInWithGoogle,
+} from "../../firebase/firebase.utils";
 
 function Copyright() {
 	return (
@@ -48,23 +52,47 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
 	const classes = useStyles();
+	const [error, setError] = useState(false);
 	const [userData, userDataSet] = useState({
 		email: "",
 		firstName: "",
 		lastName: "",
 		password: "",
+		confirmPassword: "",
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// axios
-		// 	.post("/auth/signup", {
-		// 		username: userData.email,
-		// 		password: userData.password,
-		// 	})
-		// 	.then(function (response) {
-		// 		console.log(response);
-		// 	});
+		const { firstName, lastName, email, password, confirmPassword } = userData;
+
+		if (!firstName || !lastName || !email || !password || !confirmPassword) {
+			setError({ message: "All fields are required" });
+			return;
+		}
+		if (password !== confirmPassword) {
+			setError({ passwordError: true, message: "Passwords don't match!" });
+			return;
+		}
+		try {
+			const { user } = await auth.createUserWithEmailAndPassword(
+				email,
+				password
+			);
+
+			await createUserProfileDocument(user, {
+				displayName: userData.firstName,
+			});
+
+			userDataSet({
+				firstName: "",
+				lastName: "",
+				email: "",
+				password: "",
+				confirmPassword: "",
+			});
+		} catch (error) {
+			setError({ message: error.message });
+		}
 	};
 
 	return (
@@ -130,9 +158,28 @@ export default function SignUp(props) {
 								type="password"
 								id="password"
 								autoComplete="current-password"
+								error={error.passwordError}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant="outlined"
+								required
+								fullWidth
+								name="confirmPassword"
+								label="Confirm password"
+								type="password"
+								id="confirmPassword"
+								autoComplete="current-password"
+								error={error.passwordError}
 							/>
 						</Grid>
 					</Grid>
+					<div>
+						<p style={{ marginTop: "1em", color: "red", textAlign: "center" }}>
+							{error.message}
+						</p>
+					</div>
 					<Button
 						type="submit"
 						fullWidth
