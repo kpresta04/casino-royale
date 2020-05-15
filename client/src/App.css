@@ -33,10 +33,9 @@
   color: white;
 }
 
-/* .mainbtn {
-  top: 80px;
-  position: relative;
-} */
+.mainbtn {
+  margin: 15;
+}
 
 .logo {
   text-align: center;
