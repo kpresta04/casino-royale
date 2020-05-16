@@ -20,6 +20,7 @@ class SlotMachine extends Component {
     this.results = [];
   }
   componentDidMount() {
+    document.body.style.backgroundColor = "green";
     this.handleTimeout(this.handleStart, 5000);
   }
   handleStart = () => {

@@ -245,6 +245,7 @@ export default function BlackjackPage() {
 		}
 	};
 	return (
+		<div className="blackjackpage">
 		<div className="blackJackBoard">
 			<div className="dealerCards">
 				{dealerCardsState.hand.map((card, index) => (
@@ -307,6 +308,7 @@ export default function BlackjackPage() {
 					STAND
 				</Button>
 			</div>
+		</div>
 		</div>
 	);
 }
