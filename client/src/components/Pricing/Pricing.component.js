@@ -142,6 +142,7 @@ function Pricing(props) {
 			price: tier.price,
 			amount: tier.amount,
 			description: tier.description[0],
+			id: Date.now(),
 		};
 		props.dispatch(addToCart(item));
 	};

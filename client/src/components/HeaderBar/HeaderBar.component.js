@@ -53,7 +53,7 @@ function ButtonAppBar(props) {
 								}}
 								color="inherit"
 							>
-								Sign Out
+								<span className="buttonLabel">Sign Out</span>
 							</Button>
 						</div>
 					) : (

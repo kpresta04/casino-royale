@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { auth } from "./firebase/firebase.utils";
 import { setUser } from "./actions/setUser";
 import Pricing from "./components/Pricing/Pricing.component";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
 	margin: {
 		margin: theme.spacing(1),
@@ -48,9 +49,10 @@ function App(props) {
 					<Pricing />
 				</div>
 			</header>
-			<a href="/blackjack">
+			<Link to="/blackjack">
 				<div className="Blackjack">blackjack pic place holder</div>
-			</a>
+			</Link>
+
 			<a href="/slots">
 				<div className="Slots">slots pic place holder</div>
 			</a>

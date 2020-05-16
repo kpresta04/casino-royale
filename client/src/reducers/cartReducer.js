@@ -4,6 +4,15 @@ const cartReducer = (state = [], action) => {
 			state = [...state, action.item];
 			return state;
 
+		case "DELETE_CART_ITEM":
+			let stateArray = [...state];
+			state = stateArray.filter((item) => item.id !== action.id);
+			return state;
+
+		case "RESET_CART":
+			state = [];
+			return state;
+
 		default:
 			return state;
 	}

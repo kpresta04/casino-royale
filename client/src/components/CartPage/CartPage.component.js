@@ -10,13 +10,21 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import StripeCheckoutButton from "../stripe-button/stripe-button.component";
+import "./cartPage.css";
+import { deleteCartItem } from "../../actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "100%",
 		margin: "4em auto",
 		maxWidth: 360,
+
 		backgroundColor: theme.palette.background.paper,
+		typography: {
+			// In Chinese and Japanese the characters are usually larger,
+			// so a smaller fontsize may be appropriate.
+			fontSize: 24,
+		},
 	},
 }));
 
@@ -30,10 +38,13 @@ export function CartPage(props) {
 		});
 		return total;
 	};
+	const handleDelete = (id) => {
+		props.dispatch(deleteCartItem(id));
+	};
 	useEffect(() => {
 		setTotal(getTotal());
 	}, [props.cart]);
-	return (
+	return props.cart.length > 0 ? (
 		<div>
 			<List dense className={classes.root}>
 				{props.cart.map((item, index) => {
@@ -44,17 +55,28 @@ export function CartPage(props) {
 
 							<ListItemText id={labelId} primary={item.description} />
 							<ListItemSecondaryAction>
-								<HighlightOffIcon edge="end" />
+								<HighlightOffIcon
+									className="delete-button"
+									onClick={() => handleDelete(item.id)}
+									edge="end"
+								/>
 							</ListItemSecondaryAction>
 						</ListItem>
 					);
 				})}
+				<ListItem style={{ marginTop: "1.5em" }}>
+					<ListItemText
+						className="totalText"
+						primary={`Total: $${total}`}
+					></ListItemText>
+				</ListItem>
 			</List>
 			<div style={{ display: "flex", justifyContent: "center" }}>
-				<StripeCheckoutButton />
-				<h1>{total}</h1>
+				<StripeCheckoutButton history={props.history} price={total} />
 			</div>
 		</div>
+	) : (
+		<h1 className="emptyCartText">Nothing in your cart!</h1>
 	);
 }
 const mapStateToProps = (state) => ({

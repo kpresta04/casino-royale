@@ -1,0 +1,11 @@
+.delete-button {
+	cursor: pointer;
+}
+.MuiButtonBase-root {
+	cursor: initial !important;
+}
+.emptyCartText {
+	font-size: 2em;
+	text-align: center;
+	margin-top: 2em;
+}
