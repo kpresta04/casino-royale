@@ -1,7 +1,7 @@
 const chipReducer = (state = null, action) => {
 	switch (action.type) {
 		case "SET_CHIP_COUNT":
-			state = action.count;
+			state += action.count;
 			return state;
 
 		default:

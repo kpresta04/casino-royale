@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 const tiers = [
 	{
 		title: "Entry Level",
-		price: "10",
+		price: 10,
 		description: ["1000 chips"],
 		buttonText: "Add To Cart",
 		amount: 1000,
@@ -89,7 +89,7 @@ const tiers = [
 	{
 		title: "Pro",
 		subheader: "Most popular",
-		price: "25",
+		price: 25,
 		amount: 3000,
 
 		description: ["3000 chips"],
@@ -98,7 +98,7 @@ const tiers = [
 	},
 	{
 		title: "High Roller",
-		price: "50",
+		price: 50,
 		amount: 7500,
 		description: ["7500 chips", "Best Value!"],
 		buttonText: "Add To Cart",
@@ -138,7 +138,12 @@ const footers = [
 function Pricing(props) {
 	const classes = useStyles();
 	const handleAddToCart = (tier) => {
-		const item = { price: tier.price, amount: tier.amount };
+		const item = {
+			price: tier.price,
+			amount: tier.amount,
+			description: tier.description[0],
+			id: Date.now(),
+		};
 		props.dispatch(addToCart(item));
 	};
 
