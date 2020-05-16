@@ -1,15 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Nixie+One');
 
-.body {
-	background-color: #000000;
-}
-
-.blackjackpage {
-	background: radial-gradient(#34b445, #000000);
-	background-color: #000000;
-}
-
-
 .playerCards,
 .dealerCards {
 	grid-column: 2/4;
@@ -49,8 +39,9 @@
 	font-family: 'Nixie One', sans-serif;
 	font-size: calc(8px + 1vmin);
 	color: white;
-	height: 100vh;
-	margin: 0;
+	background-color: #1cb45e;
+	background-image: linear-gradient(148deg, #000000 0%, #1cb45e 90%,);
+	// background: #065506;
 	min-height: 100vh;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
@@ -67,7 +58,6 @@
 
 #announce-text {
 	text-align: center;
-	display: block;
 	margin: 0 auto;
 	grid-column: 2/4;
 	grid-row: 3;

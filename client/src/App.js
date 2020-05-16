@@ -61,7 +61,7 @@ function App(props) {
 			<a href="/blackjack">
 				<div className="Blackjack">blackjack pic place holder</div>
 			</a>
-			<a href="/slots">
+			<a href="https://johnfranke.github.io/slot-machine-rough-draft/">
 				<div className="Slots">slots pic place holder</div>
 			</a>
 		</div>
