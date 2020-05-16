@@ -8,6 +8,7 @@ import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
 import { setUser } from "../actions/setUser";
 import { connect } from "react-redux";
 import HeaderBar from "../components/HeaderBar/HeaderBar.component";
+import CartPage from "../components/CartPage/CartPage.component";
 
 import App from "../App";
 
@@ -45,13 +46,13 @@ function AppRouter(props) {
 	return (
 		<BrowserRouter>
 			<div>
-				<HeaderBar user={props.user.currentUser} />
+				<HeaderBar />
 				<Switch>
 					<Route path="/" component={App} exact={true} />
-
 					<Route path="/blackjack" component={BlackjackPage} />
 					<Route path="/slots" component={SlotPage} />
 					<Route path="/signup" component={SignUpPage} />
+					<Route path="/cart" component={CartPage} />
 					<Route path="/signin" component={SignInPage} />
 				</Switch>
 			</div>

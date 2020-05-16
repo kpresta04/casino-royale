@@ -21,7 +21,7 @@ function App(props) {
 			<header className="App-header">
 				<Main className="logo"></Main>
 				<div className="mb-2">
-					{props.user.currentUser ? (
+					{props.user ? (
 						""
 					) : (
 						<div>
@@ -61,6 +61,7 @@ function App(props) {
 const mapStateToProps = (state) => {
 	return {
 		user: state.user,
+		cart: state.cart,
 	};
 };
 
