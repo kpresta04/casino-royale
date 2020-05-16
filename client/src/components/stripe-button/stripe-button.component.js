@@ -10,7 +10,7 @@ export default function StripeCheckoutButton({ price }) {
 
 	return (
 		<StripeCheckout
-			label="Pay Now"
+			label="Checkout Now"
 			name="Casion Royale"
 			billingAddress
 			description={`Your total is $${price}`}
