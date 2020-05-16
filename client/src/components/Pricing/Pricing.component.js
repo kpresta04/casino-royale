@@ -138,7 +138,11 @@ const footers = [
 function Pricing(props) {
 	const classes = useStyles();
 	const handleAddToCart = (tier) => {
-		const item = { price: tier.price, amount: tier.amount };
+		const item = {
+			price: tier.price,
+			amount: tier.amount,
+			description: tier.description[0],
+		};
 		props.dispatch(addToCart(item));
 	};
 
