@@ -5,7 +5,7 @@ import "./App.css";
 import { connect } from "react-redux";
 import { auth } from "./firebase/firebase.utils";
 import { setUser } from "./actions/setUser";
-
+import Pricing from "./components/Pricing/Pricing.component";
 const useStyles = makeStyles((theme) => ({
 	margin: {
 		margin: theme.spacing(1),
@@ -22,18 +22,7 @@ function App(props) {
 				<Main className="logo"></Main>
 				<div className="mb-2">
 					{props.user.currentUser ? (
-						<Button
-							className="mainbtn"
-							size="large"
-							variant="outlined"
-							color="secondary"
-							onClick={() => {
-								auth.signOut();
-								// props.dispatch(setUser(null));
-							}}
-						>
-							Sign Out
-						</Button>
+						""
 					) : (
 						<div>
 							<Button
@@ -56,6 +45,7 @@ function App(props) {
 							</Button>
 						</div>
 					)}
+					<Pricing />
 				</div>
 			</header>
 			<a href="/blackjack">
