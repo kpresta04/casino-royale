@@ -1,0 +1,12 @@
+.headerLinks {
+	color: white;
+}
+
+.headerLinks:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+.headerBar {
+	background-color: black !important;
+}

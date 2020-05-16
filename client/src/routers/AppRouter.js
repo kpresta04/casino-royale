@@ -7,6 +7,7 @@ import SignInPage from "../components/SignInPage/SignInPage.component";
 import { auth, createUserProfileDocument } from "../firebase/firebase.utils";
 import { setUser } from "../actions/setUser";
 import { connect } from "react-redux";
+import HeaderBar from "../components/HeaderBar/HeaderBar.component";
 
 import App from "../App";
 
@@ -44,6 +45,7 @@ function AppRouter(props) {
 	return (
 		<BrowserRouter>
 			<div>
+				<HeaderBar user={props.user.currentUser} />
 				<Switch>
 					<Route path="/" component={App} exact={true} />
 
