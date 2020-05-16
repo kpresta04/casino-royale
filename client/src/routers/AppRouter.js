@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import BlackjackPage from "../components/BlackJackPage/BlackjackPage.component";
-import SlotPage from "../components/SlotPage/SlotPage.component";
+import SlotPage from "../components/SlotPage/SlotApp";
 import SignUpPage from "../components/SignUpPage/SignUpPage.component";
 import SignInPage from "../components/SignInPage/SignInPage.component";
 import { auth, createUserProfileDocument } from "../firebase/firebase.utils";

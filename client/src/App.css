@@ -33,10 +33,9 @@
   color: white;
 }
 
-/* .mainbtn {
-  top: 80px;
-  position: relative;
-} */
+.mainbtn {
+  margin: 15;
+}
 
 .logo {
   text-align: center;
@@ -51,7 +50,7 @@
 }
 
 .logo b{
-  font: 400 12vh "Dosis";
+  font: 400 15vh "Dosis";
   color: #fee;
   text-shadow: 0 -10px 100px, 0 0 2px, 0 0 1em hsl(204, 100%, 66%), 0 0 0.5em hsl(204, 100%, 66%), 0 0 0.1em hsl(204, 100%, 66%), 0 10px 3px #000;
 }
