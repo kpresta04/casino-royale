@@ -2,33 +2,20 @@
  * - this is where we set up our connection to the mongo database
  */
 const mongoose = require("mongoose");
+const mongoPW = require("./config");
 mongoose.Promise = global.Promise;
-let MONGO_URL;
-const MONGO_LOCAL_URL = "mongodb://localhost/mern-passport";
+const mongoDB = `mongodb+srv://dbUser1:${mongoPW}@cluster0-l36fj.mongodb.net/test?retryWrites=true&w=majority`;
 
-if (process.env.MONGODB_URI) {
-	mongoose.connect(process.env.MONGODB_URI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
-	});
-	MONGO_URL = process.env.MONGODB_URI;
-} else {
-	mongoose.connect(MONGO_LOCAL_URL, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
-	}); // local mongo url
-	MONGO_URL = MONGO_LOCAL_URL;
-}
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// should mongoose.connection be put in the call back of mongoose.connect???
+//Get the default connection
 const db = mongoose.connection;
-db.on("error", (err) => {
-	console.log(`There was an error connecting to the database: ${err}`);
-});
+
+//Bind connection to error event (to get notification of connection errors)
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
 	console.log(
-		`You have successfully connected to your mongo database: ${MONGO_URL}`
+		`You have successfully connected to your mongo database: ${mongoDB}`
 	);
 });
-
 module.exports = db;

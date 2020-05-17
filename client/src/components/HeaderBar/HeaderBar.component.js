@@ -50,7 +50,7 @@ function ButtonAppBar(props) {
 							<Button color="inherit">
 								<ShoppingCartOutlinedIcon style={{ color: "white" }} />
 								<Link style={{ color: "white" }} to="/cart">
-									Cart ({props.cart.length})
+									Cart ({props.cart ? props.cart.length : 0})
 								</Link>
 							</Button>
 

@@ -6,35 +6,17 @@ if (process.env.NODE_ENV !== "production") {
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const dbConnection = require("./db"); // loads our connection to the mongo database
-const passport = require("./passport");
 const app = express();
 const PORT = process.env.PORT || 8080;
 const publicPath = path.join(__dirname, "..", "public");
 // ===== Middleware ====
 app.use(morgan("dev"));
-app.use(
-	bodyParser.urlencoded({
-		extended: false,
-	})
-);
-app.use(bodyParser.json());
-app.use(
-	session({
-		secret: process.env.APP_SECRET || "this is the default passphrase",
-		store: new MongoStore({ mongooseConnection: dbConnection }),
-		resave: false,
-		saveUninitialized: false,
-	})
-);
-
-// ===== Passport ====
-app.use(passport.initialize());
-app.use(passport.session()); // will call the deserializeUser
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // ===== testing middleware =====
 // app.use(function(req, res, next) {
@@ -59,28 +41,35 @@ app.use(passport.session()); // will call the deserializeUser
 // )
 
 // ==== if its production environment!
+// if (process.env.NODE_ENV === "production") {
+// 	const path = require("path");
+// 	console.log("YOU ARE IN THE PRODUCTION ENV");
+// app.use("/static", express.static(path.join(__dirname, "../build/static")));
+// }
 if (process.env.NODE_ENV === "production") {
-	const path = require("path");
-	console.log("YOU ARE IN THE PRODUCTION ENV");
-	app.use("/static", express.static(path.join(__dirname, "../build/static")));
-	app.get("/", (req, res) => {
-		res.sendFile(path.join(__dirname, "../build/"));
-	});
+	app.use(express.static("./client/build"));
 }
-
 /* Express app ROUTING */
-app.use("/auth", require("./auth"));
-app.use(express.static(publicPath));
+// app.use("/api", require("./routes/api"));
+// app.use(express.static(publicPath));
+app.get("/save", (req, res) => {
+	res.send("hello");
+});
 
 app.get("*", (req, res) => {
-	res.sendFile(path.join(publicPath, "index.html"));
+	// res.sendFile(path.join(publicPath, "index.html"));
+	res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
+
+// app.get("*", (req, res) => {
+// 	res.sendFile(path.join(publicPath, "index.html"));
+// });
 // ====== Error handler ====
-app.use(function (err, req, res, next) {
-	console.log("====== ERROR =======");
-	console.error(err.stack);
-	res.status(500);
-});
+// app.use(function (err, req, res, next) {
+// 	console.log("====== ERROR =======");
+// 	console.error(err.stack);
+// 	res.status(500);
+// });
 
 // ==== Starting Server =====
 app.listen(PORT, () => {

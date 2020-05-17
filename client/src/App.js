@@ -8,6 +8,7 @@ import { setUser } from "./actions/setUser";
 import Pricing from "./components/Pricing/Pricing.component";
 import { Link } from "react-router-dom";
 import { reloadSavedCart } from "./actions/cartActions";
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
 	margin: {
 		margin: theme.spacing(1),
@@ -19,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
 	useEffect(() => {
+		// axios.get("/save").then(function (response) {
+		// 	// handle success
+		// 	console.log(response);
+		// });
 		if (props.user) {
 			const savedCart = JSON.parse(localStorage.getItem("myCart"));
 			props.dispatch(reloadSavedCart(savedCart));
