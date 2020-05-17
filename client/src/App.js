@@ -26,7 +26,9 @@ function App(props) {
 		// });
 		if (props.user) {
 			const savedCart = JSON.parse(localStorage.getItem("myCart"));
-			props.dispatch(reloadSavedCart(savedCart));
+			if (savedCart) {
+				props.dispatch(reloadSavedCart(savedCart));
+			}
 		}
 	}, [props.user]);
 	return (
