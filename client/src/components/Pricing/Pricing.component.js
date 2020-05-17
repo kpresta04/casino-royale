@@ -205,7 +205,11 @@ function Pricing(props) {
 								</CardContent>
 								<CardActions>
 									<Button
-										onClick={() => handleAddToCart(tier)}
+										onClick={() => {
+											if (props.user) {
+												handleAddToCart(tier);
+											}
+										}}
 										fullWidth
 										variant={tier.buttonVariant}
 										color="primary"
