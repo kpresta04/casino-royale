@@ -3,7 +3,7 @@ import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
-
+import header from '../SlotPage/img/neonblackjack.png';
 
 const useStyles = makeStyles({
 	hit: {
@@ -245,6 +245,12 @@ export default function BlackjackPage() {
 		}
 	};
 	return (
+		<div>
+		<div className="title"       style={{
+			backgroundColor: '#2d2d2d'}}>
+			<center><img src={header}></img></center>
+			</div>
+		
 		<div className="blackJackBoard">
 			<div className="dealerCards">
 				{dealerCardsState.hand.map((card, index) => (
@@ -308,5 +314,7 @@ export default function BlackjackPage() {
 				</Button>
 			</div>
 		</div>
+		</div>
+		
 	);
 }

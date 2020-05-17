@@ -21,6 +21,7 @@ class SlotMachine extends Component {
   }
   componentDidMount() {
     this.handleTimeout(this.handleStart, 5000);
+    document.body.style.backgroundImage = "url('https://i.ibb.co/mSmPxtC/slotpagebg.jpg')";
   }
   handleStart = () => {
     clearTimeout(this.state.timeout);
