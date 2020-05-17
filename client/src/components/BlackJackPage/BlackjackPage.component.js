@@ -4,30 +4,29 @@ import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
 
-
 const useStyles = makeStyles({
 	hit: {
-	  background: 'linear-gradient(45deg, #28CDFF 30%, #000000 80%)',
-	  borderRadius: 3,
-	  border: 0,
-	  color: 'white',
-	  height: 48,
-	  padding: '0 30px',
-	  boxShadow: '0 3px 5px 2px rgb(66, 65, 65)',
-	},
-	label: {
-	  textTransform: 'capitalize',
-	},
-	stand: {
-		background: 'linear-gradient(45deg, #000000 30%, #28CDFF 80%)',
+		background: "linear-gradient(45deg, #28CDFF 30%, #000000 80%)",
 		borderRadius: 3,
 		border: 0,
-		color: 'white',
+		color: "white",
 		height: 48,
-		padding: '0 30px',
-		boxShadow: '0 3px 5px 2px rgb(66, 65, 65)',
-	  },
-  });
+		padding: "0 30px",
+		boxShadow: "0 3px 5px 2px rgb(66, 65, 65)",
+	},
+	label: {
+		textTransform: "capitalize",
+	},
+	stand: {
+		background: "linear-gradient(45deg, #000000 30%, #28CDFF 80%)",
+		borderRadius: 3,
+		border: 0,
+		color: "white",
+		height: 48,
+		padding: "0 30px",
+		boxShadow: "0 3px 5px 2px rgb(66, 65, 65)",
+	},
+});
 
 const human = "human";
 const dealer = "dealer";
@@ -273,11 +272,11 @@ export default function BlackjackPage() {
 			</div>
 			<h1 id="announce-text">{announceText}</h1>
 			<div className="playerButtons">
-				<Button 
-				
-					classes={{root: classes.hit, // class name, e.g. `classes-nesting-root-x`
-        					label: classes.label, // class name, e.g. `classes-nesting-label-x`
-      						}}
+				<Button
+					classes={{
+						root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+						label: classes.label, // class name, e.g. `classes-nesting-label-x`
+					}}
 					id="hit-button"
 					variant="outlined"
 					color="primary"
@@ -292,10 +291,15 @@ export default function BlackjackPage() {
 				</Button>
 
 				<Button
-					classes={{root: classes.stand, // class name, e.g. `classes-nesting-root-x`
-							label: classes.label, // class name, e.g. `classes-nesting-label-x`
-					  		}}				
-					style={{ margin: "0 1em", height: "3em", width: "7em" }}
+					classes={{
+						root: classes.stand, // class name, e.g. `classes-nesting-root-x`
+						label: classes.label, // class name, e.g. `classes-nesting-label-x`
+					}}
+					style={{
+						margin: "0 1em",
+						height: "3em",
+						width: "7em",
+					}}
 					variant="contained"
 					// disabled={!running}
 					onClick={() => {

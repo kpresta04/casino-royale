@@ -39,10 +39,18 @@ function ButtonAppBar(props) {
 
 					{props.user ? (
 						<div>
+							<Button className="chipButton" color="inherit">
+								<img
+									src="https://firebasestorage.googleapis.com/v0/b/casino-royale-9c472.appspot.com/o/gaming.svg?alt=media&token=3058a860-e55f-4cbb-aaf9-ee94e79433ce"
+									style={{ height: "24px", width: "24px", marginRight: "1em" }}
+								/>
+								{props.chips ? props.chips : 0}
+							</Button>
+
 							<Button color="inherit">
 								<ShoppingCartOutlinedIcon style={{ color: "white" }} />
 								<Link style={{ color: "white" }} to="/cart">
-									Cart ({props.cart.length})
+									Cart ({props.cart ? props.cart.length : 0})
 								</Link>
 							</Button>
 
@@ -57,8 +65,10 @@ function ButtonAppBar(props) {
 							</Button>
 						</div>
 					) : (
-						<Button href="/signin" color="inherit">
-							Login
+						<Button color="inherit">
+							<Link style={{ color: "white" }} to="/signin">
+								Login
+							</Link>
 						</Button>
 					)}
 				</Toolbar>
@@ -70,6 +80,7 @@ const mapStateToProps = (state) => {
 	return {
 		user: state.user,
 		cart: state.cart,
+		chips: state.chips,
 	};
 };
 

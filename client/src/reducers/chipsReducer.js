@@ -4,6 +4,10 @@ const chipReducer = (state = null, action) => {
 			state += action.count;
 			return state;
 
+		case "RELOAD_WALLET":
+			state = action.wallet;
+			return state;
+
 		default:
 			return state;
 	}
