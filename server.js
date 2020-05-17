@@ -1,15 +1,14 @@
 // Loading evnironmental variables here
-if (process.env.NODE_ENV !== "production") {
-	console.log("loading dev environments");
-	require("dotenv").config();
-}
-require("dotenv").config();
+
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-const dbConnection = require("./db"); // loads our connection to the mongo database
+const Wallet = require("./db/models/wallet");
+
+const cors = require("cors");
+const db = require("./db"); // loads our connection to the mongo database
 const app = express();
 const PORT = process.env.PORT || 8080;
 const publicPath = path.join(__dirname, "..", "public");
@@ -18,6 +17,8 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Automatically allow cross-origin requests
+app.use(cors({ origin: true }));
 // ===== testing middleware =====
 // app.use(function(req, res, next) {
 // 	console.log('===== passport user =======')
@@ -55,7 +56,23 @@ if (process.env.NODE_ENV === "production") {
 app.get("/save", (req, res) => {
 	res.send("hello");
 });
-
+app.post("/chips", (req, res) => {
+	const obj = req.body;
+	console.log(obj);
+	const newWallet = new Wallet(obj);
+	newWallet.save((err, savedWallet) => {
+		if (err) return res.json(err);
+		return res.json(savedWallet);
+	});
+});
+app.get("/chips/:userID", async (req, res) => {
+	try {
+		const results = await Wallet.findOne({ userID: req.params.userID });
+		res.send(results);
+	} catch (error) {
+		res.send(error);
+	}
+});
 app.get("*", (req, res) => {
 	// res.sendFile(path.join(publicPath, "index.html"));
 	res.sendFile(path.join(__dirname, "./client/build/index.html"));
