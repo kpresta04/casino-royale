@@ -14,6 +14,8 @@ import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import { addToCart } from "../../actions/cartActions";
+import { connect } from "react-redux";
 
 function Copyright() {
 	return (
@@ -78,22 +80,26 @@ const useStyles = makeStyles((theme) => ({
 const tiers = [
 	{
 		title: "Entry Level",
-		price: "10",
+		price: 10,
 		description: ["1000 chips"],
 		buttonText: "Add To Cart",
+		amount: 1000,
 		buttonVariant: "outlined",
 	},
 	{
 		title: "Pro",
 		subheader: "Most popular",
-		price: "25",
+		price: 25,
+		amount: 3000,
+
 		description: ["3000 chips"],
 		buttonText: "Add To Cart",
 		buttonVariant: "contained",
 	},
 	{
 		title: "High Roller",
-		price: "50",
+		price: 50,
+		amount: 7500,
 		description: ["7500 chips", "Best Value!"],
 		buttonText: "Add To Cart",
 		buttonVariant: "outlined",
@@ -129,8 +135,17 @@ const footers = [
 	},
 ];
 
-export default function Pricing() {
+function Pricing(props) {
 	const classes = useStyles();
+	const handleAddToCart = (tier) => {
+		const item = {
+			price: tier.price,
+			amount: tier.amount,
+			description: tier.description[0],
+			id: Date.now(),
+		};
+		props.dispatch(addToCart(item));
+	};
 
 	return (
 		<React.Fragment>
@@ -177,6 +192,7 @@ export default function Pricing() {
 								</CardContent>
 								<CardActions>
 									<Button
+										onClick={() => handleAddToCart(tier)}
 										fullWidth
 										variant={tier.buttonVariant}
 										color="primary"
@@ -195,3 +211,12 @@ export default function Pricing() {
 		</React.Fragment>
 	);
 }
+
+const mapStateToProps = (state) => {
+	return {
+		user: state.user,
+		cart: state.cart,
+	};
+};
+
+export default connect(mapStateToProps)(Pricing);

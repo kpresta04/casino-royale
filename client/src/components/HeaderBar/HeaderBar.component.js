@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import "./headerBar.css";
 import { auth } from "../../firebase/firebase.utils";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ButtonAppBar(props) {
+function ButtonAppBar(props) {
 	const classes = useStyles();
 
 	return (
@@ -40,7 +41,9 @@ export default function ButtonAppBar(props) {
 						<div>
 							<Button color="inherit">
 								<ShoppingCartOutlinedIcon style={{ color: "white" }} />
-								Cart (0)
+								<Link style={{ color: "white" }} to="/cart">
+									Cart ({props.cart.length})
+								</Link>
 							</Button>
 
 							<Button
@@ -50,7 +53,7 @@ export default function ButtonAppBar(props) {
 								}}
 								color="inherit"
 							>
-								Sign Out
+								<span className="buttonLabel">Sign Out</span>
 							</Button>
 						</div>
 					) : (
@@ -63,3 +66,11 @@ export default function ButtonAppBar(props) {
 		</div>
 	);
 }
+const mapStateToProps = (state) => {
+	return {
+		user: state.user,
+		cart: state.cart,
+	};
+};
+
+export default connect(mapStateToProps)(ButtonAppBar);

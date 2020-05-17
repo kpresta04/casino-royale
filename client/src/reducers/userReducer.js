@@ -1,7 +1,7 @@
-const userReducer = (state = { user: null, chips: null }, action) => {
+const userReducer = (state = {}, action) => {
 	switch (action.type) {
 		case "SET_USER":
-			state = { currentUser: action.user, chips: state.chips };
+			state = action.user;
 			console.log(state);
 			return state;
 

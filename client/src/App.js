@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { auth } from "./firebase/firebase.utils";
 import { setUser } from "./actions/setUser";
 import Pricing from "./components/Pricing/Pricing.component";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
 	margin: {
 		margin: theme.spacing(1),
@@ -21,7 +22,7 @@ function App(props) {
 			<header className="App-header">
 				<Main className="logo"></Main>
 				<div className="mb-2">
-					{props.user.currentUser ? (
+					{props.user ? (
 						""
 					) : (
 						<div>
@@ -67,6 +68,7 @@ function App(props) {
 const mapStateToProps = (state) => {
 	return {
 		user: state.user,
+		cart: state.cart,
 	};
 };
 

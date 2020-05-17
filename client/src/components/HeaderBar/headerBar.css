@@ -10,3 +10,8 @@
 .headerBar {
 	background-color: black !important;
 }
+
+.buttonLabel:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
