@@ -7,7 +7,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const Wallet = require("./db/models/wallet");
 
-const cors = require("cors");
+// const cors = require("cors");
 const db = require("./db"); // loads our connection to the mongo database
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -53,18 +53,18 @@ if (process.env.NODE_ENV === "production") {
 /* Express app ROUTING */
 // app.use("/api", require("./routes/api"));
 // app.use(express.static(publicPath));
-app.get("/save", (req, res) => {
-	res.send("hello");
-});
-app.post("/chips", (req, res) => {
-	const obj = req.body;
-	console.log(obj);
-	const newWallet = new Wallet(obj);
-	newWallet.save((err, savedWallet) => {
-		if (err) return res.json(err);
-		return res.json(savedWallet);
-	});
-});
+// app.get("/save", (req, res) => {
+// 	res.send("hello");
+// });
+// app.post("/chips", (req, res) => {
+// 	const obj = req.body;
+// 	console.log(obj);
+// 	const newWallet = new Wallet(obj);
+// 	newWallet.save((err, savedWallet) => {
+// 		if (err) return res.json(err);
+// 		return res.json(savedWallet);
+// 	});
+// });
 app.get("/chips/:userID", async (req, res) => {
 	try {
 		const results = await Wallet.findOne({ userID: req.params.userID });
@@ -73,11 +73,11 @@ app.get("/chips/:userID", async (req, res) => {
 		res.send(error);
 	}
 });
-app.get("*", (req, res) => {
-	//
-	// res.sendFile(path.join(publicPath, "index.html"));
-	res.sendFile(path.join(__dirname, "./client/build", "index.html"));
-});
+// app.get("*", (req, res) => {
+// 	//
+// 	// res.sendFile(path.join(publicPath, "index.html"));
+// 	res.sendFile(path.join(__dirname, "client/build", "index.html"));
+// });
 
 // app.get("*", (req, res) => {
 // 	res.sendFile(path.join(publicPath, "index.html"));
