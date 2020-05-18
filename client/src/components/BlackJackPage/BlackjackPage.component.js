@@ -228,7 +228,7 @@ export default function BlackjackPage() {
 	};
 	const stand = () => {
 		playersTurnSet(false);
-		runDealerTurn();
+		setTimeout(runDealerTurn, 1500);
 	};
 	const runPlayerTurn = async () => {
 		const newHand = await hit(playerCardsState.hand);
@@ -329,7 +329,7 @@ export default function BlackjackPage() {
 					// disabled={!running}
 					onClick={() => {
 						if (playersTurn) {
-							setTimeout(stand(), 2000);
+							stand();
 						}
 					}}
 				>
