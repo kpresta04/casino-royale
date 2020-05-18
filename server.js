@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Automatically allow cross-origin requests
-app.use(cors({ origin: true }));
+// app.use(cors({ origin: true }));
 // ===== testing middleware =====
 // app.use(function(req, res, next) {
 // 	console.log('===== passport user =======')
@@ -48,7 +48,7 @@ app.use(cors({ origin: true }));
 // app.use("/static", express.static(path.join(__dirname, "../build/static")));
 // }
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static("./client/build"));
+	app.use(express.static("client/build"));
 }
 /* Express app ROUTING */
 // app.use("/api", require("./routes/api"));
@@ -76,7 +76,7 @@ app.get("/chips/:userID", async (req, res) => {
 app.get("*", (req, res) => {
 	//
 	// res.sendFile(path.join(publicPath, "index.html"));
-	res.sendFile(path.join(__dirname, "./client/build/index.html"));
+	res.sendFile(path.join(__dirname, "./client/build", "index.html"));
 });
 
 // app.get("*", (req, res) => {
