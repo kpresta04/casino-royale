@@ -7,8 +7,8 @@ function rand() {
 }
 
 function getModalStyle() {
-	const top = 50 + rand();
-	const left = 50 + rand();
+	const top = 50;
+	const left = 50;
 
 	return {
 		top: `${top}%`,
@@ -28,12 +28,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SimpleModal() {
+export default function SimpleModal(props) {
 	const classes = useStyles();
 	// getModalStyle is not a pure function, we roll the style only on the first render
 	const [modalStyle] = React.useState(getModalStyle);
 	const [open, setOpen] = React.useState(false);
-	useEffect(() => {}, []);
+	useEffect(() => {
+		if (!props.running) {
+			handleOpen();
+		}
+	}, [props.running]);
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -41,23 +45,20 @@ export default function SimpleModal() {
 
 	const handleClose = () => {
 		setOpen(false);
+		props.startGame();
 	};
 
 	const body = (
 		<div style={modalStyle} className={classes.paper}>
-			<h2 id="simple-modal-title">Text in a modal</h2>
-			<p id="simple-modal-description">
-				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-			</p>
-			<SimpleModal />
+			<h1 id="simple-modal-title">
+				{props.announceText ? props.announceText : "Place your bet"}
+			</h1>
+			<form></form>
 		</div>
 	);
 
 	return (
 		<div>
-			<button type="button" onClick={handleClose}>
-				Close Modal
-			</button>
 			<Modal
 				open={open}
 				onClose={handleClose}

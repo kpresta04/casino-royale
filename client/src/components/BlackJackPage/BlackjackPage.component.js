@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
@@ -34,6 +34,7 @@ const dealer = "dealer";
 export default function BlackjackPage() {
 	// const Context = useContext(BlackjackState)
 	const [announceText, setAnnounceText] = useState("");
+	const playersTurn = useRef(false);
 
 	const [deck, setDeck] = useState(createDeck);
 	const [playerCardsState, playerCardsSet] = useState({
@@ -131,6 +132,7 @@ export default function BlackjackPage() {
 	// }
 	const startGame = async () => {
 		runningSet(true);
+		playersTurn.current = true;
 
 		setAnnounceText("");
 
@@ -171,16 +173,17 @@ export default function BlackjackPage() {
 	};
 
 	const resetGame = async () => {
-		setTimeout(
-			() => {
-				startGame();
-			},
+		// setTimeout(
+		// 	() => {
+		// 		startGame();
+		// 	},
 
-			1500
-		);
+		// 	1500
+		// );
+		runningSet(false);
 	};
 	const playerBusted = (player) => {
-		runningSet(false);
+		playersTurn.current = false;
 		if (player === human) {
 			setAnnounceText("You busted!");
 		} else {
@@ -220,7 +223,7 @@ export default function BlackjackPage() {
 		}
 	};
 	const stand = () => {
-		runningSet(false);
+		playersTurn.current = false;
 		runDealerTurn();
 	};
 	const runPlayerTurn = async () => {
@@ -261,7 +264,11 @@ export default function BlackjackPage() {
 			</div>
 
 			<div className="playerCards">
-				<AModal />
+				<AModal
+					running={running}
+					startGame={startGame}
+					announceText={announceText}
+				/>
 				{playerCardsState.hand.map((card, index) => (
 					<PlayingCard
 						key={index}
@@ -270,7 +277,7 @@ export default function BlackjackPage() {
 					/>
 				))}
 			</div>
-			<h1 id="announce-text">{announceText}</h1>
+			{/* <h1 id="announce-text">{announceText}</h1> */}
 			<div className="playerButtons">
 				<Button
 					classes={{
@@ -282,7 +289,7 @@ export default function BlackjackPage() {
 					color="primary"
 					style={{ margin: "0 1em", height: "3em", width: "7em" }}
 					onClick={() => {
-						if (running) {
+						if (playersTurn.current) {
 							runPlayerTurn();
 						}
 					}}
@@ -303,7 +310,7 @@ export default function BlackjackPage() {
 					variant="contained"
 					// disabled={!running}
 					onClick={() => {
-						if (running) {
+						if (playersTurn.current) {
 							stand();
 						}
 					}}
