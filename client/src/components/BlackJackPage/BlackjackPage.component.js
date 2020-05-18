@@ -3,6 +3,7 @@ import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
+import AModal from "../AnnounceModal/AModal.component";
 
 const useStyles = makeStyles({
 	hit: {
@@ -46,9 +47,7 @@ export default function BlackjackPage() {
 
 	const [running, runningSet] = useState(false);
 
-	useEffect(() => {
-		startGame();
-	}, []);
+	useEffect(() => {}, []);
 
 	const resetAces = () => {
 		for (const card of deck.cards) {
@@ -262,6 +261,7 @@ export default function BlackjackPage() {
 			</div>
 
 			<div className="playerCards">
+				<AModal />
 				{playerCardsState.hand.map((card, index) => (
 					<PlayingCard
 						key={index}
