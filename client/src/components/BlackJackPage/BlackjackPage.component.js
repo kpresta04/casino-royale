@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
@@ -34,7 +34,7 @@ const dealer = "dealer";
 export default function BlackjackPage() {
 	// const Context = useContext(BlackjackState)
 	const [announceText, setAnnounceText] = useState("");
-	const playersTurn = useRef(false);
+	const [playersTurn, playersTurnSet] = useState(false);
 
 	const [deck, setDeck] = useState(createDeck);
 	const [playerCardsState, playerCardsSet] = useState({
@@ -132,7 +132,7 @@ export default function BlackjackPage() {
 	// }
 	const startGame = async () => {
 		runningSet(true);
-		playersTurn.current = true;
+		playersTurnSet(true);
 
 		setAnnounceText("");
 
@@ -181,9 +181,10 @@ export default function BlackjackPage() {
 		// 	1500
 		// );
 		runningSet(false);
+		playersTurnSet(false);
 	};
 	const playerBusted = (player) => {
-		playersTurn.current = false;
+		playersTurnSet(false);
 		if (player === human) {
 			setAnnounceText("You busted!");
 		} else {
@@ -205,7 +206,10 @@ export default function BlackjackPage() {
 		return cardArray;
 	};
 	const runDealerTurn = async (dealerState = dealerCardsState) => {
-		if (dealerState.handScore <= 16) {
+		if (
+			dealerState.handScore <= 16 &&
+			dealerState.handScore <= playerCardsState.handScore
+		) {
 			let newHand = await hit(dealerState.hand);
 			let newHandScore = await getHandScore(newHand);
 			const newState = { hand: newHand, handScore: newHandScore };
@@ -223,7 +227,7 @@ export default function BlackjackPage() {
 		}
 	};
 	const stand = () => {
-		playersTurn.current = false;
+		playersTurnSet(false);
 		runDealerTurn();
 	};
 	const runPlayerTurn = async () => {
@@ -248,20 +252,30 @@ export default function BlackjackPage() {
 	return (
 		<div className="blackJackBoard">
 			<div className="dealerCards">
-				{dealerCardsState.hand.map((card, index) => (
-					<PlayingCard
-						key={index}
-						shortString={card.shortString}
-						player={dealer}
-					/>
-				))}
+				{playersTurn
+					? dealerCardsState.hand.map((card, index) => {
+							if (index === 0) {
+								return (
+									<PlayingCard
+										key={index}
+										shortString={card.shortString}
+										player={dealer}
+									/>
+								);
+							} else {
+								return "";
+							}
+					  })
+					: dealerCardsState.hand.map((card, index) => (
+							<PlayingCard
+								key={index}
+								shortString={card.shortString}
+								player={dealer}
+							/>
+					  ))}
 			</div>
 			<div className="scoreBox">
-				{
-					<h2>
-						Hand score: {!playersTurn.current && dealerCardsState.handScore}
-					</h2>
-				}
+				{<h2>Hand score: {!playersTurn && dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
 				{<h2>Hand score: {playerCardsState.handScore}</h2>}
@@ -293,7 +307,7 @@ export default function BlackjackPage() {
 					color="primary"
 					style={{ margin: "0 1em", height: "3em", width: "7em" }}
 					onClick={() => {
-						if (playersTurn.current) {
+						if (playersTurn) {
 							runPlayerTurn();
 						}
 					}}
@@ -314,8 +328,8 @@ export default function BlackjackPage() {
 					variant="contained"
 					// disabled={!running}
 					onClick={() => {
-						if (playersTurn.current) {
-							stand();
+						if (playersTurn) {
+							setTimeout(stand(), 2000);
 						}
 					}}
 				>
