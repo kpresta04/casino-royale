@@ -30,12 +30,11 @@ function App(props) {
 				.get(`/chips/${props.user.uid}`)
 				.then(function (response) {
 					// handle success
-					const dbObject = response.data;
+					const dbObject = response.data.chips;
 					// console.log(dbObject);
-					console.log(response);
-					// if (dbObject) {
-					// 	props.dispatch(reloadWallet(dbObject));
-					// }
+					if (dbObject) {
+						props.dispatch(reloadWallet(dbObject));
+					}
 				})
 				.catch(function (error) {
 					// handle error
