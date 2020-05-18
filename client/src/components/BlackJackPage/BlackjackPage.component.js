@@ -257,7 +257,11 @@ export default function BlackjackPage() {
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {!running && dealerCardsState.handScore}</h2>}
+				{
+					<h2>
+						Hand score: {!playersTurn.current && dealerCardsState.handScore}
+					</h2>
+				}
 			</div>
 			<div className="scoreBox">
 				{<h2>Hand score: {playerCardsState.handScore}</h2>}
