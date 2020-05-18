@@ -73,11 +73,11 @@ app.get("/chips/:userID", async (req, res) => {
 		res.send(error);
 	}
 });
-// app.get("*", (req, res) => {
-// 	//
-// 	// res.sendFile(path.join(publicPath, "index.html"));
-// 	res.sendFile(path.join(__dirname, "client/build", "index.html"));
-// });
+app.get("*", (req, res) => {
+	//
+	// res.sendFile(path.join(publicPath, "index.html"));
+	res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 // app.get("*", (req, res) => {
 // 	res.sendFile(path.join(publicPath, "index.html"));
