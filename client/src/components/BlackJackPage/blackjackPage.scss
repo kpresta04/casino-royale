@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Nixie+One');
+@import url("https://fonts.googleapis.com/css?family=Nixie+One");
 
 .body {
 	background-color: #000000;
@@ -43,7 +43,7 @@
 }
 
 .blackJackBoard {
-	font-family: 'Nixie One', sans-serif;
+	font-family: "Nixie One", sans-serif;
 	font-size: calc(8px + 1vmin);
 	color: white;
 	height: 100vh;
@@ -73,4 +73,7 @@
 	margin: 0 auto;
 	grid-column: 2/4;
 	grid-row: 3;
+}
+button:hover {
+	cursor: pointer !important;
 }

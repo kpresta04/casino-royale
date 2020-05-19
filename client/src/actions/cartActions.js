@@ -10,3 +10,8 @@ export const deleteCartItem = (id) => ({
 export const resetCart = () => ({
 	type: "RESET_CART",
 });
+
+export const reloadSavedCart = (cart) => ({
+	type: "RELOAD_CART",
+	cart,
+});

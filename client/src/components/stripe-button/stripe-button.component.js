@@ -3,6 +3,7 @@ import StripeCheckout from "react-stripe-checkout";
 import { connect } from "react-redux";
 import { setChipCount } from "../../actions/setChips";
 import { resetCart } from "../../actions/cartActions";
+import axios from "axios";
 
 function StripeCheckoutButton(props) {
 	const priceForStripe = props.price * 100;
@@ -18,6 +19,16 @@ function StripeCheckoutButton(props) {
 		//add chips
 
 		props.dispatch(setChipCount(chipsTotal()));
+
+		//save chips to database
+		axios
+			.post("/chips", {
+				userID: props.user.uid,
+				chips: props.chips + chipsTotal(),
+			})
+			.then(function (response) {
+				console.log(response);
+			});
 
 		// empty cart
 
@@ -45,6 +56,7 @@ const mapStateToProps = (state) => {
 	return {
 		chips: state.chips,
 		cart: state.cart,
+		user: state.user,
 	};
 };
 

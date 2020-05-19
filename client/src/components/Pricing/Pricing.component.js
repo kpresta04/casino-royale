@@ -137,14 +137,14 @@ const footers = [
 
 function Pricing(props) {
 	const classes = useStyles();
-	const handleAddToCart = (tier) => {
+	const handleAddToCart = async (tier) => {
 		const item = {
 			price: tier.price,
 			amount: tier.amount,
 			description: tier.description[0],
 			id: Date.now(),
 		};
-		props.dispatch(addToCart(item));
+		await props.dispatch(addToCart(item));
 	};
 
 	return (
@@ -192,7 +192,11 @@ function Pricing(props) {
 								</CardContent>
 								<CardActions>
 									<Button
-										onClick={() => handleAddToCart(tier)}
+										onClick={() => {
+											if (props.user) {
+												handleAddToCart(tier);
+											}
+										}}
 										fullWidth
 										variant={tier.buttonVariant}
 										color="primary"

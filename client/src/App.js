@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Main from "./components/Main";
 import { makeStyles, Button } from "@material-ui/core";
 import "./App.css";
@@ -7,6 +7,9 @@ import { auth } from "./firebase/firebase.utils";
 import { setUser } from "./actions/setUser";
 import Pricing from "./components/Pricing/Pricing.component";
 import { Link } from "react-router-dom";
+import { reloadSavedCart } from "./actions/cartActions";
+import axios from "axios";
+import { reloadWallet } from "./actions/setChips";
 const useStyles = makeStyles((theme) => ({
 	margin: {
 		margin: theme.spacing(1),
@@ -17,6 +20,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App(props) {
+	useEffect(() => {
+		// axios.get("/save").then(function (response) {
+		// 	// handle success
+		// 	console.log(response);
+		// });
+		if (props.user) {
+			axios
+				.get(`/chips/${props.user.uid}`)
+				.then(function (response) {
+					// handle success
+					const dbObject = response.data;
+					// console.log(dbObject);
+					console.log(response);
+					// if (dbObject) {
+					// 	props.dispatch(reloadWallet(dbObject));
+					// }
+				})
+				.catch(function (error) {
+					// handle error
+					console.log(error);
+				});
+			const savedCart = JSON.parse(localStorage.getItem("myCart"));
+			if (savedCart) {
+				props.dispatch(reloadSavedCart(savedCart));
+			}
+		}
+	}, [props.user]);
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -69,6 +99,7 @@ const mapStateToProps = (state) => {
 	return {
 		user: state.user,
 		cart: state.cart,
+		chips: state.chips,
 	};
 };
 
