@@ -3,22 +3,23 @@ import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
+import header from '../SlotPage/img/neonblackjack.png';
 
 const useStyles = makeStyles({
 	hit: {
-		background: "linear-gradient(45deg, #28CDFF 30%, #000000 80%)",
+		background: "linear-gradient(45deg, #ff1dd5 10%, #000000 80%)",
 		borderRadius: 3,
 		border: 0,
 		color: "white",
 		height: 48,
 		padding: "0 30px",
-		boxShadow: "0 3px 5px 2px rgb(66, 65, 65)",
+		boxShadow: "0 3px 5px 2px #000000)",
 	},
 	label: {
 		textTransform: "capitalize",
 	},
 	stand: {
-		background: "linear-gradient(45deg, #000000 30%, #28CDFF 80%)",
+		background: "linear-gradient(45deg, #000000 10%, #ffff00 80%)",
 		borderRadius: 3,
 		border: 0,
 		color: "white",
@@ -244,6 +245,11 @@ export default function BlackjackPage() {
 		}
 	};
 	return (
+		<div>
+		<div className="title"       style={{
+			backgroundColor: '#2d2d2d'}}>
+			<center><img src={header}></img></center>
+			</div>
 		<div className="blackJackBoard">
 			<div className="dealerCards">
 				{dealerCardsState.hand.map((card, index) => (
@@ -255,10 +261,10 @@ export default function BlackjackPage() {
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {!running && dealerCardsState.handScore}</h2>}
+				{<h2>Dealer Score: {!running && dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {playerCardsState.handScore}</h2>}
+				{<h2>Your Score: {playerCardsState.handScore}</h2>}
 			</div>
 
 			<div className="playerCards">
@@ -311,6 +317,7 @@ export default function BlackjackPage() {
 					STAND
 				</Button>
 			</div>
+		</div>
 		</div>
 	);
 }

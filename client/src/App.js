@@ -76,15 +76,20 @@ function App(props) {
 							</Button>
 						</div>
 					)}
-					<Pricing />
 				</div>
+				<p className="scrolldown">
+         			<a className="smoothscroll" href=".pricing"><i className="icon-down-circle"></i></a>
+      			</p>
 			</header>
-			<Link to="/blackjack">
-				<div className="Blackjack">blackjack pic place holder</div>
-			</Link>
-
+			<div className="pricing">
+				Pricing
+			<Pricing />
+			</div>
+			<a href="/blackjack">
+				<div className="Blackjack">Play Neon Blackjack</div>
+			</a>
 			<a href="/slots">
-				<div className="Slots">slots pic place holder</div>
+				<div className="Slots">Play Space Slots</div>
 			</a>
 		</div>
 	);
