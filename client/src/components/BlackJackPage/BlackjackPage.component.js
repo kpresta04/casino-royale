@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from "react";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
-import { Button } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
 import header from '../SlotPage/img/neonblackjack.png';
 
 const useStyles = makeStyles({
 	hit: {
-	  background: 'linear-gradient(45deg, #28CDFF 30%, #000000 80%)',
-	  borderRadius: 3,
-	  border: 0,
-	  color: 'white',
-	  height: 48,
-	  padding: '0 30px',
-	  boxShadow: '0 3px 5px 2px rgb(66, 65, 65)',
-	},
-	label: {
-	  textTransform: 'capitalize',
-	},
-	stand: {
-		background: 'linear-gradient(45deg, #000000 30%, #28CDFF 80%)',
+		background: "linear-gradient(45deg, #ff1dd5 10%, #000000 80%)",
 		borderRadius: 3,
 		border: 0,
-		color: 'white',
+		color: "white",
 		height: 48,
-		padding: '0 30px',
-		boxShadow: '0 3px 5px 2px rgb(66, 65, 65)',
-	  },
-  });
+		padding: "0 30px",
+		boxShadow: "0 3px 5px 2px #000000)",
+	},
+	label: {
+		textTransform: "capitalize",
+	},
+	stand: {
+		background: "linear-gradient(45deg, #000000 10%, #ffff00 80%)",
+		borderRadius: 3,
+		border: 0,
+		color: "white",
+		height: 48,
+		padding: "0 30px",
+		boxShadow: "0 3px 5px 2px rgb(66, 65, 65)",
+	},
+});
 
 const human = "human";
 const dealer = "dealer";
@@ -58,6 +58,8 @@ export default function BlackjackPage() {
 			}
 		}
 	};
+
+	const classes = useStyles();
 
 	const getHandScore = (hand) => {
 		// Gets the score of each card
@@ -248,7 +250,6 @@ export default function BlackjackPage() {
 			backgroundColor: '#2d2d2d'}}>
 			<center><img src={header}></img></center>
 			</div>
-		
 		<div className="blackJackBoard">
 			<div className="dealerCards">
 				{dealerCardsState.hand.map((card, index) => (
@@ -260,10 +261,10 @@ export default function BlackjackPage() {
 				))}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {!running && dealerCardsState.handScore}</h2>}
+				{<h2>Dealer Score: {!running && dealerCardsState.handScore}</h2>}
 			</div>
 			<div className="scoreBox">
-				{<h2>Hand score: {playerCardsState.handScore}</h2>}
+				{<h2>Your Score: {playerCardsState.handScore}</h2>}
 			</div>
 
 			<div className="playerCards">
@@ -278,10 +279,14 @@ export default function BlackjackPage() {
 			<h1 id="announce-text">{announceText}</h1>
 			<div className="playerButtons">
 				<Button
+					classes={{
+						root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+						label: classes.label, // class name, e.g. `classes-nesting-label-x`
+					}}
 					id="hit-button"
-					variant="contained"
+					variant="outlined"
 					color="primary"
-					style={{ margin: "0 3em", height: "3em", width: "7em" }}
+					style={{ margin: "0 1em", height: "3em", width: "7em" }}
 					onClick={() => {
 						if (running) {
 							runPlayerTurn();
@@ -292,7 +297,15 @@ export default function BlackjackPage() {
 				</Button>
 
 				<Button
-					style={{ margin: "0 3em", height: "3em", width: "7em" }}
+					classes={{
+						root: classes.stand, // class name, e.g. `classes-nesting-root-x`
+						label: classes.label, // class name, e.g. `classes-nesting-label-x`
+					}}
+					style={{
+						margin: "0 1em",
+						height: "3em",
+						width: "7em",
+					}}
 					variant="contained"
 					// disabled={!running}
 					onClick={() => {
@@ -306,6 +319,5 @@ export default function BlackjackPage() {
 			</div>
 		</div>
 		</div>
-		
 	);
 }
