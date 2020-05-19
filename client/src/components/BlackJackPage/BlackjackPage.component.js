@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
-import { Button, makeStyles } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
 import header from '../SlotPage/img/neonblackjack.png';
 
@@ -58,8 +58,6 @@ export default function BlackjackPage() {
 			}
 		}
 	};
-
-	const classes = useStyles();
 
 	const getHandScore = (hand) => {
 		// Gets the score of each card
@@ -279,15 +277,11 @@ export default function BlackjackPage() {
 			</div>
 			<h1 id="announce-text">{announceText}</h1>
 			<div className="playerButtons">
-				<Button 
-				
-					classes={{root: classes.hit, // class name, e.g. `classes-nesting-root-x`
-        					label: classes.label, // class name, e.g. `classes-nesting-label-x`
-      						}}
+				<Button
 					id="hit-button"
-					variant="outlined"
+					variant="contained"
 					color="primary"
-					style={{ margin: "0 1em", height: "3em", width: "7em" }}
+					style={{ margin: "0 3em", height: "3em", width: "7em" }}
 					onClick={() => {
 						if (running) {
 							runPlayerTurn();
@@ -298,10 +292,7 @@ export default function BlackjackPage() {
 				</Button>
 
 				<Button
-					classes={{root: classes.stand, // class name, e.g. `classes-nesting-root-x`
-							label: classes.label, // class name, e.g. `classes-nesting-label-x`
-					  		}}				
-					style={{ margin: "0 1em", height: "3em", width: "7em" }}
+					style={{ margin: "0 3em", height: "3em", width: "7em" }}
 					variant="contained"
 					// disabled={!running}
 					onClick={() => {
