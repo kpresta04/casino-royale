@@ -151,19 +151,6 @@ function Pricing(props) {
 		<React.Fragment>
 			<CssBaseline />
 
-			{/* Hero unit */}
-			<Container maxWidth="sm" component="main" className={classes.heroContent}>
-				<Typography
-					component="h1"
-					variant="h2"
-					align="center"
-					style={{ color: "white" }}
-					gutterBottom
-				>
-					Pricing
-				</Typography>
-			</Container>
-			{/* End hero unit */}
 			<Container maxWidth="md" component="main">
 				<Grid container spacing={5} alignItems="flex-end">
 					{tiers.map((tier) => (

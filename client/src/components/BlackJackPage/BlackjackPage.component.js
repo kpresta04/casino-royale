@@ -4,22 +4,23 @@ import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
 import AModal from "../AnnounceModal/AModal.component";
+import header from "../SlotPage/img/neonblackjack.png";
 
 const useStyles = makeStyles({
 	hit: {
-		background: "linear-gradient(45deg, #28CDFF 30%, #000000 80%)",
+		background: "linear-gradient(45deg, #ff1dd5 10%, #000000 80%)",
 		borderRadius: 3,
 		border: 0,
 		color: "white",
 		height: 48,
 		padding: "0 30px",
-		boxShadow: "0 3px 5px 2px rgb(66, 65, 65)",
+		boxShadow: "0 3px 5px 2px #000000)",
 	},
 	label: {
 		textTransform: "capitalize",
 	},
 	stand: {
-		background: "linear-gradient(45deg, #000000 30%, #28CDFF 80%)",
+		background: "linear-gradient(45deg, #000000 10%, #ffff00 80%)",
 		borderRadius: 3,
 		border: 0,
 		color: "white",
@@ -250,91 +251,103 @@ export default function BlackjackPage() {
 		}
 	};
 	return (
-		<div className="blackJackBoard">
-			<div className="dealerCards">
-				{playersTurn
-					? dealerCardsState.hand.map((card, index) => {
-							if (index === 0) {
-								return (
-									<PlayingCard
-										key={index}
-										shortString={card.shortString}
-										player={dealer}
-									/>
-								);
-							} else {
-								return "";
-							}
-					  })
-					: dealerCardsState.hand.map((card, index) => (
-							<PlayingCard
-								key={index}
-								shortString={card.shortString}
-								player={dealer}
-							/>
-					  ))}
+		<div>
+			<div
+				className="title"
+				style={{
+					backgroundColor: "#2d2d2d",
+				}}
+			>
+				<center>
+					<img src={header}></img>
+				</center>
 			</div>
-			<div className="scoreBox">
-				{<h2>Hand score: {!playersTurn && dealerCardsState.handScore}</h2>}
-			</div>
-			<div className="scoreBox">
-				{<h2>Hand score: {playerCardsState.handScore}</h2>}
-			</div>
+			<div className="blackJackBoard">
+				<div className="dealerCards">
+					{playersTurn
+						? dealerCardsState.hand.map((card, index) => {
+								if (index === 0) {
+									return (
+										<PlayingCard
+											key={index}
+											shortString={card.shortString}
+											player={dealer}
+										/>
+									);
+								} else {
+									return "";
+								}
+						  })
+						: dealerCardsState.hand.map((card, index) => (
+								<PlayingCard
+									key={index}
+									shortString={card.shortString}
+									player={dealer}
+								/>
+						  ))}
+				</div>
+				<div className="scoreBox">
+					{<h2>Hand score: {!playersTurn && dealerCardsState.handScore}</h2>}
+				</div>
+				<div className="scoreBox">
+					{<h2>Your Score: {playerCardsState.handScore}</h2>}
+				</div>
 
-			<div className="playerCards">
-				<AModal
-					running={running}
-					startGame={startGame}
-					announceText={announceText}
-				/>
-				{playerCardsState.hand.map((card, index) => (
-					<PlayingCard
-						key={index}
-						shortString={card.shortString}
-						player={human}
+				<div className="playerCards">
+					<AModal
+						running={running}
+						startGame={startGame}
+						announceText={announceText}
 					/>
-				))}
-			</div>
-			{/* <h1 id="announce-text">{announceText}</h1> */}
-			<div className="playerButtons">
-				<Button
-					classes={{
-						root: classes.hit, // class name, e.g. `classes-nesting-root-x`
-						label: classes.label, // class name, e.g. `classes-nesting-label-x`
-					}}
-					id="hit-button"
-					variant="outlined"
-					color="primary"
-					style={{ margin: "0 1em", height: "3em", width: "7em" }}
-					onClick={() => {
-						if (playersTurn) {
-							runPlayerTurn();
-						}
-					}}
-				>
-					HIT
-				</Button>
+					{playerCardsState.hand.map((card, index) => (
+						<PlayingCard
+							key={index}
+							shortString={card.shortString}
+							player={human}
+						/>
+					))}
+				</div>
+				{/* <h1 id="announce-text">{announceText}</h1> */}
+				<div className="playerButtons">
+					<Button
+						classes={{
+							root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+							label: classes.label, // class name, e.g. `classes-nesting-label-x`
+						}}
+						id="hit-button"
+						variant="outlined"
+						color="primary"
+						style={{ margin: "0 1em", height: "3em", width: "7em" }}
+						onClick={() => {
+							if (playersTurn) {
+								runPlayerTurn();
+							}
+						}}
+					>
+						HIT
+					</Button>
 
-				<Button
-					classes={{
-						root: classes.stand, // class name, e.g. `classes-nesting-root-x`
-						label: classes.label, // class name, e.g. `classes-nesting-label-x`
-					}}
-					style={{
-						margin: "0 1em",
-						height: "3em",
-						width: "7em",
-					}}
-					variant="contained"
-					// disabled={!running}
-					onClick={() => {
-						if (playersTurn) {
-							stand();
-						}
-					}}
-				>
-					STAND
-				</Button>
+					<Button
+						classes={{
+							root: classes.stand, // class name, e.g. `classes-nesting-root-x`
+							label: classes.label, // class name, e.g. `classes-nesting-label-x`
+						}}
+						style={{
+							margin: "0 1em",
+							height: "3em",
+							width: "7em",
+						}}
+						variant="contained"
+						// disabled={!running}
+						onClick={() => {
+							if (playersTurn) {
+								stand();
+							}
+						}}
+					>
+						STAND
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
