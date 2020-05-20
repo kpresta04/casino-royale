@@ -28,7 +28,7 @@ function AppRouter(props) {
 					.then(function (response) {
 						// handle success
 						const dbObject = response.data.chips;
-						// console.log(dbObject);
+						console.log(dbObject);
 						if (dbObject) {
 							props.dispatch(reloadWallet(dbObject));
 						}
