@@ -162,7 +162,7 @@ function Pricing(props) {
 							sm={tier.title === "Enterprise" ? 12 : 6}
 							md={4}
 						>
-							<Card>
+							<Card style={{ minWidth: "5em" }}>
 								<CardHeader
 									title={tier.title}
 									subheader={tier.subheader}

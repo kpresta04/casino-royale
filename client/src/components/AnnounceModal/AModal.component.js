@@ -119,7 +119,11 @@ export default function SimpleModal(props) {
 						Chips required to play Blackjack!
 					</h1>
 					<Pricing />
-					<Button variant="contained" color="primary">
+					<Button
+						style={{ margin: "1em auto" }}
+						variant="contained"
+						color="primary"
+					>
 						<Link to="/cart">Go To Cart</Link>
 					</Button>
 				</div>
