@@ -63,6 +63,7 @@ export function BasicTextFields(props) {
 				type="number"
 				min="50"
 				error={error}
+				autoFocus
 				// onChange={(e) => console.log(e.target.value)}
 				defaultValue={props.bet > 50 ? props.bet : 50}
 				id="outlined-basic"
