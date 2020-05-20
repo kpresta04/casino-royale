@@ -9,7 +9,9 @@ import { setUser } from "../actions/setUser";
 import { connect } from "react-redux";
 import HeaderBar from "../components/HeaderBar/HeaderBar.component";
 import CartPage from "../components/CartPage/CartPage.component";
-
+import { reloadSavedCart } from "../actions/cartActions";
+import axios from "axios";
+import { reloadWallet } from "../actions/setChips";
 import App from "../App";
 
 function AppRouter(props) {
@@ -20,6 +22,26 @@ function AppRouter(props) {
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			props.dispatch(setUser(user));
+			if (user) {
+				axios
+					.get(`/chips/${user.uid}`)
+					.then(function (response) {
+						// handle success
+						const dbObject = response.data.chips;
+						// console.log(dbObject);
+						if (dbObject) {
+							props.dispatch(reloadWallet(dbObject));
+						}
+					})
+					.catch(function (error) {
+						// handle error
+						console.log(error);
+					});
+				const savedCart = JSON.parse(localStorage.getItem("myCart"));
+				if (savedCart) {
+					props.dispatch(reloadSavedCart(savedCart));
+				}
+			}
 		});
 		unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
 			if (userAuth) {

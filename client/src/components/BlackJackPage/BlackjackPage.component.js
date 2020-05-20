@@ -3,7 +3,8 @@ import PlayingCard from "../PlayingCard/PlayingCard.component";
 import "./blackjackPage.scss";
 import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
-import header from '../SlotPage/img/neonblackjack.png';
+import AModal from "../AnnounceModal/AModal.component";
+import header from "../SlotPage/img/neonblackjack.png";
 
 const useStyles = makeStyles({
 	hit: {
@@ -34,6 +35,7 @@ const dealer = "dealer";
 export default function BlackjackPage() {
 	// const Context = useContext(BlackjackState)
 	const [announceText, setAnnounceText] = useState("");
+	const [playersTurn, playersTurnSet] = useState(false);
 
 	const [deck, setDeck] = useState(createDeck);
 	const [playerCardsState, playerCardsSet] = useState({
@@ -47,9 +49,7 @@ export default function BlackjackPage() {
 
 	const [running, runningSet] = useState(false);
 
-	useEffect(() => {
-		startGame();
-	}, []);
+	useEffect(() => {}, []);
 
 	const resetAces = () => {
 		for (const card of deck.cards) {
@@ -133,6 +133,7 @@ export default function BlackjackPage() {
 	// }
 	const startGame = async () => {
 		runningSet(true);
+		playersTurnSet(true);
 
 		setAnnounceText("");
 
@@ -173,16 +174,18 @@ export default function BlackjackPage() {
 	};
 
 	const resetGame = async () => {
-		setTimeout(
-			() => {
-				startGame();
-			},
+		// setTimeout(
+		// 	() => {
+		// 		startGame();
+		// 	},
 
-			1500
-		);
+		// 	1500
+		// );
+		runningSet(false);
+		playersTurnSet(false);
 	};
 	const playerBusted = (player) => {
-		runningSet(false);
+		playersTurnSet(false);
 		if (player === human) {
 			setAnnounceText("You busted!");
 		} else {
@@ -204,7 +207,10 @@ export default function BlackjackPage() {
 		return cardArray;
 	};
 	const runDealerTurn = async (dealerState = dealerCardsState) => {
-		if (dealerState.handScore <= 16) {
+		if (
+			dealerState.handScore <= 16 &&
+			dealerState.handScore <= playerCardsState.handScore
+		) {
 			let newHand = await hit(dealerState.hand);
 			let newHandScore = await getHandScore(newHand);
 			const newState = { hand: newHand, handScore: newHandScore };
@@ -222,8 +228,8 @@ export default function BlackjackPage() {
 		}
 	};
 	const stand = () => {
-		runningSet(false);
-		runDealerTurn();
+		playersTurnSet(false);
+		setTimeout(runDealerTurn, 1500);
 	};
 	const runPlayerTurn = async () => {
 		const newHand = await hit(playerCardsState.hand);
@@ -246,78 +252,103 @@ export default function BlackjackPage() {
 	};
 	return (
 		<div>
-		<div className="title"       style={{
-			backgroundColor: '#2d2d2d'}}>
-			<center><img src={header}></img></center>
+			<div
+				className="title"
+				style={{
+					backgroundColor: "#2d2d2d",
+				}}
+			>
+				<center>
+					<img src={header}></img>
+				</center>
 			</div>
-		<div className="blackJackBoard">
-			<div className="dealerCards">
-				{dealerCardsState.hand.map((card, index) => (
-					<PlayingCard
-						key={index}
-						shortString={card.shortString}
-						player={dealer}
-					/>
-				))}
-			</div>
-			<div className="scoreBox">
-				{<h2>Dealer Score: {!running && dealerCardsState.handScore}</h2>}
-			</div>
-			<div className="scoreBox">
-				{<h2>Your Score: {playerCardsState.handScore}</h2>}
-			</div>
+			<div className="blackJackBoard">
+				<div className="dealerCards">
+					{playersTurn
+						? dealerCardsState.hand.map((card, index) => {
+								if (index === 0) {
+									return (
+										<PlayingCard
+											key={index}
+											shortString={card.shortString}
+											player={dealer}
+										/>
+									);
+								} else {
+									return "";
+								}
+						  })
+						: dealerCardsState.hand.map((card, index) => (
+								<PlayingCard
+									key={index}
+									shortString={card.shortString}
+									player={dealer}
+								/>
+						  ))}
+				</div>
+				<div className="scoreBox">
+					{<h2>Hand score: {!playersTurn && dealerCardsState.handScore}</h2>}
+				</div>
+				<div className="scoreBox">
+					{<h2>Your Score: {playerCardsState.handScore}</h2>}
+				</div>
 
-			<div className="playerCards">
-				{playerCardsState.hand.map((card, index) => (
-					<PlayingCard
-						key={index}
-						shortString={card.shortString}
-						player={human}
+				<div className="playerCards">
+					<AModal
+						running={running}
+						startGame={startGame}
+						announceText={announceText}
 					/>
-				))}
-			</div>
-			<h1 id="announce-text">{announceText}</h1>
-			<div className="playerButtons">
-				<Button
-					classes={{
-						root: classes.hit, // class name, e.g. `classes-nesting-root-x`
-						label: classes.label, // class name, e.g. `classes-nesting-label-x`
-					}}
-					id="hit-button"
-					variant="outlined"
-					color="primary"
-					style={{ margin: "0 1em", height: "3em", width: "7em" }}
-					onClick={() => {
-						if (running) {
-							runPlayerTurn();
-						}
-					}}
-				>
-					HIT
-				</Button>
+					{playerCardsState.hand.map((card, index) => (
+						<PlayingCard
+							key={index}
+							shortString={card.shortString}
+							player={human}
+						/>
+					))}
+				</div>
+				{/* <h1 id="announce-text">{announceText}</h1> */}
+				<div className="playerButtons">
+					<Button
+						classes={{
+							root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+							label: classes.label, // class name, e.g. `classes-nesting-label-x`
+						}}
+						id="hit-button"
+						variant="outlined"
+						color="primary"
+						style={{ margin: "0 1em", height: "3em", width: "7em" }}
+						onClick={() => {
+							if (playersTurn) {
+								runPlayerTurn();
+							}
+						}}
+					>
+						HIT
+					</Button>
 
-				<Button
-					classes={{
-						root: classes.stand, // class name, e.g. `classes-nesting-root-x`
-						label: classes.label, // class name, e.g. `classes-nesting-label-x`
-					}}
-					style={{
-						margin: "0 1em",
-						height: "3em",
-						width: "7em",
-					}}
-					variant="contained"
-					// disabled={!running}
-					onClick={() => {
-						if (running) {
-							stand();
-						}
-					}}
-				>
-					STAND
-				</Button>
+					<Button
+						classes={{
+							root: classes.stand, // class name, e.g. `classes-nesting-root-x`
+							label: classes.label, // class name, e.g. `classes-nesting-label-x`
+						}}
+						style={{
+							margin: "0 1em",
+							height: "3em",
+							width: "7em",
+						}}
+						variant="contained"
+						// disabled={!running}
+						onClick={() => {
+							if (playersTurn) {
+								stand();
+							}
+						}}
+					>
+						STAND
+					</Button>
+				</div>
 			</div>
-		</div>
 		</div>
 	);
 }

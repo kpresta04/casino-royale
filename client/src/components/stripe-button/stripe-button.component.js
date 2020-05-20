@@ -8,7 +8,7 @@ import axios from "axios";
 function StripeCheckoutButton(props) {
 	const priceForStripe = props.price * 100;
 	const publishableKey = "pk_test_8YnJ2qrwK8OvwHr6kVbM4Lz400dBI7Jx8d";
-	const onToken = (token) => {
+	const onToken = async (token) => {
 		const chipsTotal = () => {
 			let chipAmount = 0;
 			props.cart.forEach((element) => {
@@ -19,16 +19,32 @@ function StripeCheckoutButton(props) {
 		//add chips
 
 		props.dispatch(setChipCount(chipsTotal()));
+		// console.log(props.user.uid);
+		const dbExists = await axios.get(`/chips/${props.user.uid}`);
+		// console.log(dbExists);
+
+		if (dbExists.data) {
+			const chipsInCart = await chipsTotal();
+			const chips = props.chips + chipsInCart;
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		} else {
+			axios
+				.post("/chips", {
+					userID: props.user.uid,
+					chips: props.chips + chipsTotal(),
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		}
 
 		//save chips to database
-		axios
-			.post("/chips", {
-				userID: props.user.uid,
-				chips: props.chips + chipsTotal(),
-			})
-			.then(function (response) {
-				console.log(response);
-			});
 
 		// empty cart
 

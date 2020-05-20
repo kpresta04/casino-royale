@@ -56,15 +56,28 @@ if (process.env.NODE_ENV === "production") {
 // app.get("/save", (req, res) => {
 // 	res.send("hello");
 // });
-// app.post("/chips", (req, res) => {
-// 	const obj = req.body;
-// 	console.log(obj);
-// 	const newWallet = new Wallet(obj);
-// 	newWallet.save((err, savedWallet) => {
-// 		if (err) return res.json(err);
-// 		return res.json(savedWallet);
-// 	});
-// });
+app.post("/chips", (req, res) => {
+	const obj = req.body;
+	console.log(obj);
+	const newWallet = new Wallet(obj);
+	newWallet.save((err, savedWallet) => {
+		if (err) return res.json(err);
+		return res.json(savedWallet);
+	});
+});
+
+app.put("/chips/:userID", async (req, res) => {
+	try {
+		const { chips } = req.body;
+		const results = await Wallet.findOneAndUpdate(
+			{ userID: req.params.userID },
+			{ chips }
+		);
+		res.send(results);
+	} catch (error) {
+		res.send(error);
+	}
+});
 app.get("/chips/:userID", async (req, res) => {
 	try {
 		const results = await Wallet.findOne({ userID: req.params.userID });

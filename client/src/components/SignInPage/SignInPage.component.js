@@ -124,7 +124,7 @@ export default function SignIn(props) {
 					>
 						Sign In
 					</Button>
-					<Button
+					{/* <Button
 						type="submit"
 						fullWidth
 						variant="contained"
@@ -137,7 +137,7 @@ export default function SignIn(props) {
 						}}
 					>
 						Sign In with Google
-					</Button>
+					</Button> */}
 					<Grid container>
 						<Grid item xs>
 							<Link

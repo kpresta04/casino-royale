@@ -6,7 +6,12 @@ const mongoPW = require("./config");
 mongoose.Promise = global.Promise;
 const mongoDB = `mongodb+srv://dbUser1:${mongoPW}@cluster0-l36fj.mongodb.net/test?retryWrites=true&w=majority`;
 
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true,
+});
 
 //Get the default connection
 const db = mongoose.connection;

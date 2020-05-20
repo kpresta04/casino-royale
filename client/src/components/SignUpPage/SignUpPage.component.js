@@ -190,7 +190,7 @@ export default function SignUp(props) {
 					>
 						Sign Up with Email
 					</Button>
-					<Button
+					{/* <Button
 						type="submit"
 						fullWidth
 						variant="contained"
@@ -203,7 +203,7 @@ export default function SignUp(props) {
 						}}
 					>
 						Sign Up with Google
-					</Button>
+					</Button> */}
 					<Grid container justify="flex-end">
 						<Grid item>
 							<Link href="/signin" variant="body2">
