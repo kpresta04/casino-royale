@@ -31,9 +31,9 @@ function ButtonAppBar(props) {
 		<div className={classes.root}>
 			<AppBar className="headerBar" position="static">
 				<Toolbar>
-					<Typography variant="h6" className={classes.title}>
+					<Typography variant="h5" className={classes.title}>
 						<Link className="headerLinks" to="/">
-							Home
+							HOME
 						</Link>
 					</Typography>
 

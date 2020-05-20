@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Nixie+One');
+@import 'https://fonts.googleapis.com/css?family=Dosis';
+
+
 .headerLinks {
 	color: white;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bolder;
 }
 
 .headerLinks:hover {
 	color: white;
 	text-decoration: underline;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bolder;
 }
 
 .headerBar {

@@ -12,14 +12,16 @@ import Avatar from "@material-ui/core/Avatar";
 import StripeCheckoutButton from "../stripe-button/stripe-button.component";
 import "./cartPage.css";
 import { deleteCartItem } from "../../actions/cartActions";
+import carthead from "../../images/carthead.png"
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "100%",
-		margin: "4em auto",
+		margin: "2em auto",
 		maxWidth: 360,
+        alignItems: 'center',
+        justifyContent: 'center',
 
-		backgroundColor: theme.palette.background.paper,
 		typography: {
 			// In Chinese and Japanese the characters are usually larger,
 			// so a smaller fontsize may be appropriate.
@@ -45,7 +47,10 @@ export function CartPage(props) {
 		setTotal(getTotal());
 	}, [props.cart]);
 	return props.cart.length > 0 ? (
-		<div>
+		<div className="cartBackground">
+		<div className="cartList">
+			{/* Your Cart */}
+			<img src={carthead} />
 			<List dense className={classes.root}>
 				{props.cart.map((item, index) => {
 					const labelId = `checkbox-list-secondary-label-${item}`;
@@ -75,9 +80,13 @@ export function CartPage(props) {
 				<StripeCheckoutButton history={props.history} price={total} />
 			</div>
 		</div>
+		</div>
 	) : (
+		<div className="nothingBackground">
 		<h1 className="emptyCartText">Nothing in your cart!</h1>
+		</div>
 	);
+	
 }
 const mapStateToProps = (state) => ({
 	user: state.user,
