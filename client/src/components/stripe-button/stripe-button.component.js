@@ -19,13 +19,20 @@ function StripeCheckoutButton(props) {
 		//add chips
 
 		props.dispatch(setChipCount(chipsTotal()));
-
+		// console.log(props.user.uid);
 		const dbExists = await axios.get(`/chips/${props.user.uid}`);
+		// console.log(dbExists);
 
-		if (dbExists) {
-			axios.put(`/chips/${props.user.uid}`, {
-				chips: props.chips + chipsTotal(),
-			});
+		if (dbExists.data) {
+			const chipsInCart = await chipsTotal();
+			const chips = props.chips + chipsInCart;
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
 		} else {
 			axios
 				.post("/chips", {
