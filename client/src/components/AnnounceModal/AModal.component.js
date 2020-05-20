@@ -50,6 +50,9 @@ export function BasicTextFields(props) {
 				} else if (betAmount < 50) {
 					errorSet(true);
 					props.setErrorMessage("Minimum bet is 50!");
+				} else if (betAmount > props.chips) {
+					errorSet(true);
+					props.setErrorMessage("You can't bet more than you have!");
 				}
 			}}
 			className={classes.root}
@@ -115,6 +118,9 @@ export default function SimpleModal(props) {
 				</div>
 			) : (
 				<div style={{ width: "100%" }}>
+					<h1 className="simple-modal-title">
+						{props.announceText ? props.announceText : "Place your bet"}
+					</h1>
 					<h1 className="simple-modal-title">
 						Chips required to play Blackjack!
 					</h1>

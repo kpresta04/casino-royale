@@ -6,6 +6,8 @@ import createDeck from "./scripts/createDeck";
 import AModal from "../AnnounceModal/AModal.component";
 import header from "../SlotPage/img/neonblackjack.png";
 import { connect } from "react-redux";
+import { setChipCount } from "../../actions/setChips";
+import axios from "axios";
 
 const useStyles = makeStyles({
 	hit: {
@@ -132,6 +134,40 @@ function BlackjackPage(props) {
 	// const deal =(num,deck)=>{
 
 	// }
+
+	const handleWinner = (winner = dealer, natural = false) => {
+		if (natural && winner === human) {
+			const chips = props.chips + bet * 1.5;
+			props.dispatch(setChipCount(bet));
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		} else if (winner === human) {
+			const chips = props.chips + bet;
+			props.dispatch(setChipCount(bet));
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		} else {
+			const chips = props.chips - bet;
+			props.dispatch(setChipCount(-bet));
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		}
+	};
 	const startGame = async () => {
 		runningSet(true);
 		playersTurnSet(true);
@@ -158,12 +194,14 @@ function BlackjackPage(props) {
 			dealerCardsState.handScore !== 21
 		) {
 			setAnnounceText("You got a natural!");
+			handleWinner(human, true);
 			resetGame();
 		} else if (
 			playerCardsState.handScore !== 21 &&
 			dealerCardsState.handScore === 21
 		) {
 			setAnnounceText("Dealer scored a natural.");
+			handleWinner();
 			resetGame();
 		} else if (
 			playerCardsState.handScore === 21 &&
@@ -189,8 +227,10 @@ function BlackjackPage(props) {
 		playersTurnSet(false);
 		if (player === human) {
 			setAnnounceText("You busted!");
+			handleWinner();
 		} else {
 			setAnnounceText("Dealer busted");
+			handleWinner(human);
 		}
 		resetGame();
 	};
@@ -239,15 +279,17 @@ function BlackjackPage(props) {
 			playerBusted(human);
 		}
 	};
-	const checkWinner = (dealerState) => {
+	const checkWinner = async (dealerState) => {
 		if (playerCardsState.handScore === dealerState.handScore) {
 			setAnnounceText("Round tied");
 			resetGame();
 		} else if (playerCardsState.handScore > dealerState.handScore) {
 			setAnnounceText("You win!");
+			await handleWinner(human);
 			resetGame();
 		} else {
 			setAnnounceText("Dealer won");
+			await handleWinner();
 			resetGame();
 		}
 	};
@@ -359,6 +401,7 @@ function BlackjackPage(props) {
 const mapStateToProps = (state) => {
 	return {
 		chips: state.chips,
+		user: state.user,
 	};
 };
 
