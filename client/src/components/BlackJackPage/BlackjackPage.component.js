@@ -5,6 +5,7 @@ import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
 import AModal from "../AnnounceModal/AModal.component";
 import header from "../SlotPage/img/neonblackjack.png";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
 	hit: {
@@ -32,11 +33,11 @@ const useStyles = makeStyles({
 
 const human = "human";
 const dealer = "dealer";
-export default function BlackjackPage() {
+function BlackjackPage(props) {
 	// const Context = useContext(BlackjackState)
 	const [announceText, setAnnounceText] = useState("");
 	const [playersTurn, playersTurnSet] = useState(false);
-
+	const [bet, setBet] = useState(50);
 	const [deck, setDeck] = useState(createDeck);
 	const [playerCardsState, playerCardsSet] = useState({
 		hand: [],
@@ -229,7 +230,7 @@ export default function BlackjackPage() {
 	};
 	const stand = () => {
 		playersTurnSet(false);
-		setTimeout(runDealerTurn, 1500);
+		setTimeout(runDealerTurn, 1000);
 	};
 	const runPlayerTurn = async () => {
 		const newHand = await hit(playerCardsState.hand);
@@ -298,6 +299,9 @@ export default function BlackjackPage() {
 						running={running}
 						startGame={startGame}
 						announceText={announceText}
+						setBet={setBet}
+						bet={bet}
+						chips={props.chips}
 					/>
 					{playerCardsState.hand.map((card, index) => (
 						<PlayingCard
@@ -352,3 +356,10 @@ export default function BlackjackPage() {
 		</div>
 	);
 }
+const mapStateToProps = (state) => {
+	return {
+		chips: state.chips,
+	};
+};
+
+export default connect(mapStateToProps)(BlackjackPage);
