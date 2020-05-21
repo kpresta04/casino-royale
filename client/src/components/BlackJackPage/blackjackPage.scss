@@ -92,3 +92,10 @@
 button:hover {
 	cursor: pointer !important;
 }
+
+@media (max-width:910px) {
+.titleimg {
+	width: 100%;
+}
+
+}
