@@ -165,7 +165,13 @@ function Pricing(props) {
 							sm={tier.title === "Enterprise" ? 12 : 6}
 							md={4}
 						>
-							<Card style={{backgroundColor: "white", opacity: "90%", onHover: "opacity: 100%" }}>
+							<Card
+								style={{
+									backgroundColor: "white",
+									opacity: "90%",
+									onHover: "opacity: 100%",
+								}}
+							>
 								<CardHeader
 									title={tier.title}
 									subheader={tier.subheader}
@@ -173,7 +179,7 @@ function Pricing(props) {
 									subheaderTypographyProps={{ align: "center", text: "black" }}
 									action={tier.title === "Pro" ? <StarIcon /> : null}
 									className={classes.cardHeader}
-									style={{backgroundColor: "#f50057", text: "white"}}
+									style={{ backgroundColor: "#f50057", text: "white" }}
 								/>
 								<CardContent>
 									<div className={classes.cardPricing}>

@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App(props) {
+	useEffect(() => {
+		window.document.body.scrollTo(0, 0);
+	}, []);
 	// useEffect(() => {
 	// axios.get("/save").then(function (response) {
 	// 	// handle success
@@ -75,19 +78,21 @@ function App(props) {
 					)}
 				</div>
 				<p className="scrolldown">
-         			<a className="smoothscroll" href=".pricing"><i className="icon-down-circle"></i></a>
-      			</p>
+					<a className="smoothscroll" href=".pricing">
+						<i className="icon-down-circle"></i>
+					</a>
+				</p>
 			</header>
 			<div className="pricing">
 				<div className="pricingtitle">Pricing</div>
-			<Pricing />
+				<Pricing />
 			</div>
-			<a href="/blackjack">
+			<Link to="/blackjack">
 				<div className="Blackjack">Play Neon Blackjack</div>
-			</a>
-			<a href="/slots">
+			</Link>
+			<Link to="/slots">
 				<div className="Slots">Play Space Slots</div>
-			</a>
+			</Link>
 		</div>
 	);
 }

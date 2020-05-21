@@ -5,6 +5,9 @@ import { Button, makeStyles } from "@material-ui/core";
 import createDeck from "./scripts/createDeck";
 import AModal from "../AnnounceModal/AModal.component";
 import header from "../SlotPage/img/neonblackjack.png";
+import { connect } from "react-redux";
+import { setChipCount } from "../../actions/setChips";
+import axios from "axios";
 
 const useStyles = makeStyles({
 	hit: {
@@ -32,11 +35,11 @@ const useStyles = makeStyles({
 
 const human = "human";
 const dealer = "dealer";
-export default function BlackjackPage() {
+function BlackjackPage(props) {
 	// const Context = useContext(BlackjackState)
 	const [announceText, setAnnounceText] = useState("");
 	const [playersTurn, playersTurnSet] = useState(false);
-
+	const [bet, setBet] = useState(50);
 	const [deck, setDeck] = useState(createDeck);
 	const [playerCardsState, playerCardsSet] = useState({
 		hand: [],
@@ -49,7 +52,9 @@ export default function BlackjackPage() {
 
 	const [running, runningSet] = useState(false);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		window.document.body.scrollTo(0, 0);
+	}, []);
 
 	const resetAces = () => {
 		for (const card of deck.cards) {
@@ -131,6 +136,40 @@ export default function BlackjackPage() {
 	// const deal =(num,deck)=>{
 
 	// }
+
+	const handleWinner = (winner = dealer, natural = false) => {
+		if (winner === human && natural) {
+			const chips = props.chips + bet * 1.5;
+			props.dispatch(setChipCount(bet * 1.5));
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		} else if (winner === human && !natural) {
+			const chips = props.chips + bet;
+			props.dispatch(setChipCount(bet));
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		} else {
+			const chips = props.chips - bet;
+			props.dispatch(setChipCount(-bet));
+			axios
+				.put(`/chips/${props.user.uid}`, {
+					chips,
+				})
+				.then(function (response) {
+					console.log(response);
+				});
+		}
+	};
 	const startGame = async () => {
 		runningSet(true);
 		playersTurnSet(true);
@@ -157,12 +196,14 @@ export default function BlackjackPage() {
 			dealerCardsState.handScore !== 21
 		) {
 			setAnnounceText("You got a natural!");
+			handleWinner(human, true);
 			resetGame();
 		} else if (
 			playerCardsState.handScore !== 21 &&
 			dealerCardsState.handScore === 21
 		) {
 			setAnnounceText("Dealer scored a natural.");
+			handleWinner();
 			resetGame();
 		} else if (
 			playerCardsState.handScore === 21 &&
@@ -188,8 +229,10 @@ export default function BlackjackPage() {
 		playersTurnSet(false);
 		if (player === human) {
 			setAnnounceText("You busted!");
+			handleWinner();
 		} else {
 			setAnnounceText("Dealer busted");
+			handleWinner(human);
 		}
 		resetGame();
 	};
@@ -207,12 +250,18 @@ export default function BlackjackPage() {
 		return cardArray;
 	};
 	const runDealerTurn = async (dealerState = dealerCardsState) => {
-		if (
-			dealerState.handScore <= 16 &&
-			dealerState.handScore <= playerCardsState.handScore
-		) {
-			let newHand = await hit(dealerState.hand);
-			let newHandScore = await getHandScore(newHand);
+		let newHand = [...dealerState.hand];
+		let newHandScore = await getHandScore(newHand);
+
+		if (newHandScore >= 22 && countAces(newHand) > 0) {
+			//Do we need to convert aces?
+
+			newHand = convertAces(newHand);
+		}
+		newHandScore = await getHandScore(newHand);
+		if (newHandScore <= 16 && newHandScore <= playerCardsState.handScore) {
+			newHand = await hit(newHand);
+			newHandScore = await getHandScore(newHand);
 			const newState = { hand: newHand, handScore: newHandScore };
 
 			// dealerCardsSet(newState);
@@ -229,7 +278,7 @@ export default function BlackjackPage() {
 	};
 	const stand = () => {
 		playersTurnSet(false);
-		setTimeout(runDealerTurn, 1500);
+		setTimeout(runDealerTurn, 1000);
 	};
 	const runPlayerTurn = async () => {
 		const newHand = await hit(playerCardsState.hand);
@@ -238,15 +287,17 @@ export default function BlackjackPage() {
 			playerBusted(human);
 		}
 	};
-	const checkWinner = (dealerState) => {
+	const checkWinner = async (dealerState) => {
 		if (playerCardsState.handScore === dealerState.handScore) {
 			setAnnounceText("Round tied");
 			resetGame();
 		} else if (playerCardsState.handScore > dealerState.handScore) {
 			setAnnounceText("You win!");
+			await handleWinner(human);
 			resetGame();
 		} else {
 			setAnnounceText("Dealer won");
+			await handleWinner();
 			resetGame();
 		}
 	};
@@ -293,11 +344,43 @@ export default function BlackjackPage() {
 					{<h2>Your Score: {playerCardsState.handScore}</h2>}
 				</div>
 
+				<div className="doubleDownBox">
+					<h2>Current Bet: {bet}</h2>
+					<Button className="chipButton" color="inherit">
+						<img
+							src="https://firebasestorage.googleapis.com/v0/b/casino-royale-9c472.appspot.com/o/gaming.svg?alt=media&token=3058a860-e55f-4cbb-aaf9-ee94e79433ce"
+							style={{ height: "24px", width: "24px", marginRight: "1em" }}
+						/>
+						{props.chips ? props.chips : 0}
+					</Button>
+					<Button
+						classes={{
+							root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+							label: classes.label, // class name, e.g. `classes-nesting-label-x`
+						}}
+						id="doubleDown-button"
+						variant="outlined"
+						color="primary"
+						disabled
+						style={{ margin: "0 1em", height: "4em", width: "7em" }}
+						// onClick={() => {
+						// 	if (playersTurn) {
+						// 		runPlayerTurn();
+						// 	}
+						// }}
+					>
+						DOUBLE DOWN
+					</Button>
+				</div>
+
 				<div className="playerCards">
 					<AModal
 						running={running}
 						startGame={startGame}
 						announceText={announceText}
+						setBet={setBet}
+						bet={bet}
+						chips={props.chips}
 					/>
 					{playerCardsState.hand.map((card, index) => (
 						<PlayingCard
@@ -352,3 +435,11 @@ export default function BlackjackPage() {
 		</div>
 	);
 }
+const mapStateToProps = (state) => {
+	return {
+		chips: state.chips,
+		user: state.user,
+	};
+};
+
+export default connect(mapStateToProps)(BlackjackPage);
