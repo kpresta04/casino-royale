@@ -138,9 +138,9 @@ function BlackjackPage(props) {
 	// }
 
 	const handleWinner = (winner = dealer, natural = false) => {
-		if (natural && winner === human) {
+		if (winner === human && natural) {
 			const chips = props.chips + bet * 1.5;
-			props.dispatch(setChipCount(bet));
+			props.dispatch(setChipCount(bet * 1.5));
 			axios
 				.put(`/chips/${props.user.uid}`, {
 					chips,
@@ -148,7 +148,7 @@ function BlackjackPage(props) {
 				.then(function (response) {
 					console.log(response);
 				});
-		} else if (winner === human) {
+		} else if (winner === human && !natural) {
 			const chips = props.chips + bet;
 			props.dispatch(setChipCount(bet));
 			axios
@@ -260,7 +260,7 @@ function BlackjackPage(props) {
 		}
 		newHandScore = await getHandScore(newHand);
 		if (newHandScore <= 16 && newHandScore <= playerCardsState.handScore) {
-			newHand = await hit(dealerState.hand);
+			newHand = await hit(newHand);
 			newHandScore = await getHandScore(newHand);
 			const newState = { hand: newHand, handScore: newHandScore };
 
