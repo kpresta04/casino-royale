@@ -79,7 +79,7 @@ function App(props) {
       			</p>
 			</header>
 			<div className="pricing">
-				Pricing
+				<div className="pricingtitle">Pricing</div>
 			<Pricing />
 			</div>
 			<a href="/blackjack">

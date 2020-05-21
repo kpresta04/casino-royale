@@ -20,8 +20,12 @@ button:focus {outline:0;}
   font-weight: bolder;
   font-size: calc(44px + 2vmin);
   color: rgb(25, 190, 255);
+  -moz-box-shadow: 0 0 10px #000;
+	-webkit-box-shadow: 0 0 10px #000;
+	box-shadow: 0 0 10px #000;
   
 }
+
 .SlotMachine {
   width:900px;
   background-image: url(./img/bg.jpg);
@@ -30,6 +34,9 @@ button:focus {outline:0;}
   height: 500px;
   position:relative;
   border-radius: 50px;
+  -moz-box-shadow: 0 0 10px #000;
+	-webkit-box-shadow: 0 0 10px #000;
+	box-shadow: 0 0 10px #000;
 }
 .WheelWrapper {
   width:875px;
@@ -51,6 +58,9 @@ button:focus {outline:0;}
   border-radius: 10px;
   position: relative;
   background: black;
+  -moz-box-shadow: 0 0 10px #000;
+	-webkit-box-shadow: 0 0 10px #000;
+	box-shadow: 0 0 10px #000;
 } 
 
 .Symbol { 
@@ -86,6 +96,9 @@ button:focus {outline:0;}
     width:600px;
     height: 500px;
     padding-top:2px;
+    -moz-box-shadow: 0 0 10px #000;
+    -webkit-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
   }
   .Space  {
     width:600px;
@@ -108,6 +121,11 @@ button:focus {outline:0;}
 }
 
 @media (max-width:550px) {
+
+  .slotstitle {
+    width:100%;
+    height:auto;
+  }
 
   .SlotMachine {
     width:250px;
