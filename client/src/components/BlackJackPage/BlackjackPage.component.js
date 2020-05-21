@@ -250,12 +250,18 @@ function BlackjackPage(props) {
 		return cardArray;
 	};
 	const runDealerTurn = async (dealerState = dealerCardsState) => {
-		if (
-			dealerState.handScore <= 16 &&
-			dealerState.handScore <= playerCardsState.handScore
-		) {
-			let newHand = await hit(dealerState.hand);
-			let newHandScore = await getHandScore(newHand);
+		let newHand = [...dealerState.hand];
+		let newHandScore = await getHandScore(newHand);
+
+		if (newHandScore >= 22 && countAces(newHand) > 0) {
+			//Do we need to convert aces?
+
+			newHand = convertAces(newHand);
+		}
+		newHandScore = await getHandScore(newHand);
+		if (newHandScore <= 16 && newHandScore <= playerCardsState.handScore) {
+			newHand = await hit(dealerState.hand);
+			newHandScore = await getHandScore(newHand);
 			const newState = { hand: newHand, handScore: newHandScore };
 
 			// dealerCardsSet(newState);
@@ -336,7 +342,35 @@ function BlackjackPage(props) {
 				</div>
 				<div className="scoreBox">
 					{<h2>Your Score: {playerCardsState.handScore}</h2>}
-					<h2 style={{ width: "100%" }}>Current Bet: {bet}</h2>
+				</div>
+
+				<div className="doubleDownBox">
+					<h2>Current Bet: {bet}</h2>
+					<Button className="chipButton" color="inherit">
+						<img
+							src="https://firebasestorage.googleapis.com/v0/b/casino-royale-9c472.appspot.com/o/gaming.svg?alt=media&token=3058a860-e55f-4cbb-aaf9-ee94e79433ce"
+							style={{ height: "24px", width: "24px", marginRight: "1em" }}
+						/>
+						{props.chips ? props.chips : 0}
+					</Button>
+					<Button
+						classes={{
+							root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+							label: classes.label, // class name, e.g. `classes-nesting-label-x`
+						}}
+						id="doubleDown-button"
+						variant="outlined"
+						color="primary"
+						disabled
+						style={{ margin: "0 1em", height: "4em", width: "7em" }}
+						// onClick={() => {
+						// 	if (playersTurn) {
+						// 		runPlayerTurn();
+						// 	}
+						// }}
+					>
+						DOUBLE DOWN
+					</Button>
 				</div>
 
 				<div className="playerCards">
