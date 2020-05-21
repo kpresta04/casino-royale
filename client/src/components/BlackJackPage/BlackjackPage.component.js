@@ -8,25 +8,25 @@ import header from "../SlotPage/img/neonblackjack.png";
 
 const useStyles = makeStyles({
 	hit: {
-		background: "linear-gradient(45deg, #ff1dd5 10%, #000000 80%)",
+		background: "rgb(240, 65, 197)",
 		borderRadius: 3,
 		border: 0,
 		color: "white",
 		height: 48,
 		padding: "0 30px",
-		boxShadow: "0 3px 5px 2px #000000)",
+		boxShadow: "0 1px 5px 1px rgb(0, 0, 0)",
 	},
 	label: {
 		textTransform: "capitalize",
 	},
 	stand: {
-		background: "linear-gradient(45deg, #000000 10%, #ffff00 80%)",
+		background: "rgb(252, 245, 21)",
 		borderRadius: 3,
 		border: 0,
 		color: "white",
 		height: 48,
 		padding: "0 30px",
-		boxShadow: "0 3px 5px 2px rgb(66, 65, 65)",
+		boxShadow: "0 1px 5px 1px rgb(0, 0, 0)",
 	},
 });
 
@@ -259,7 +259,7 @@ export default function BlackjackPage() {
 				}}
 			>
 				<center>
-					<img src={header}></img>
+					<img className="titleimg" src={header}></img>
 				</center>
 			</div>
 			<div className="blackJackBoard">
@@ -315,7 +315,7 @@ export default function BlackjackPage() {
 							label: classes.label, // class name, e.g. `classes-nesting-label-x`
 						}}
 						id="hit-button"
-						variant="outlined"
+						size="large"
 						color="primary"
 						style={{ margin: "0 1em", height: "3em", width: "7em" }}
 						onClick={() => {
@@ -337,7 +337,7 @@ export default function BlackjackPage() {
 							height: "3em",
 							width: "7em",
 						}}
-						variant="contained"
+						size="large"
 						// disabled={!running}
 						onClick={() => {
 							if (playersTurn) {

@@ -55,9 +55,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cardHeader: {
 		backgroundColor:
-			theme.palette.type === "light"
+			theme.palette.type === "dark"
 				? theme.palette.grey[200]
 				: theme.palette.grey[700],
+		color: "white",
 	},
 	cardPricing: {
 		display: "flex",
@@ -80,15 +81,16 @@ const useStyles = makeStyles((theme) => ({
 const tiers = [
 	{
 		title: "Entry Level",
+		subheader: "Start Here",
 		price: 10,
 		description: ["1000 chips"],
 		buttonText: "Add To Cart",
 		amount: 1000,
-		buttonVariant: "outlined",
+		buttonVariant: "contained",
 	},
 	{
 		title: "Pro",
-		subheader: "Most popular",
+		subheader: "Most Popular",
 		price: 25,
 		amount: 3000,
 
@@ -98,11 +100,12 @@ const tiers = [
 	},
 	{
 		title: "High Roller",
+		subheader: "Best Value",
 		price: 50,
 		amount: 7500,
-		description: ["7500 chips", "Best Value!"],
+		description: ["7500 chips"],
 		buttonText: "Add To Cart",
-		buttonVariant: "outlined",
+		buttonVariant: "contained",
 	},
 ];
 const footers = [
@@ -162,14 +165,15 @@ function Pricing(props) {
 							sm={tier.title === "Enterprise" ? 12 : 6}
 							md={4}
 						>
-							<Card>
+							<Card style={{backgroundColor: "white", opacity: "90%", onHover: "opacity: 100%" }}>
 								<CardHeader
 									title={tier.title}
 									subheader={tier.subheader}
 									titleTypographyProps={{ align: "center" }}
-									subheaderTypographyProps={{ align: "center" }}
+									subheaderTypographyProps={{ align: "center", text: "black" }}
 									action={tier.title === "Pro" ? <StarIcon /> : null}
 									className={classes.cardHeader}
+									style={{backgroundColor: "#f50057", text: "white"}}
 								/>
 								<CardContent>
 									<div className={classes.cardPricing}>
@@ -199,7 +203,8 @@ function Pricing(props) {
 										}}
 										fullWidth
 										variant={tier.buttonVariant}
-										color="primary"
+										// variant="outlined"
+										color="secondary"
 									>
 										{tier.buttonText}
 									</Button>
