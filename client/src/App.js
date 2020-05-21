@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App(props) {
+	useEffect(() => {
+		window.document.body.scrollTo(0, 0);
+	}, []);
 	// useEffect(() => {
 	// axios.get("/save").then(function (response) {
 	// 	// handle success

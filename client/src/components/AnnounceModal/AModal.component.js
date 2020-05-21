@@ -20,7 +20,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		position: "absolute",
-		width: 400,
+
 		textAlign: "center",
 		backgroundColor: theme.palette.background.paper,
 		border: "2px solid #000",
@@ -44,12 +44,22 @@ export function BasicTextFields(props) {
 				const betAmount = Number(
 					document.querySelector("#outlined-basic").value
 				);
-				if (props.chips > 0 && betAmount >= 50 && betAmount <= props.chips) {
+				if (props.chips > 50 && betAmount >= 50 && betAmount <= props.chips) {
 					props.setBet(betAmount);
 					props.handleClose();
-				} else if (betAmount < 50) {
+				} else if (
+					props.chips <= 50 &&
+					betAmount >= 1 &&
+					betAmount <= props.chips
+				) {
+					props.setBet(betAmount);
+					props.handleClose(betAmount);
+				} else if (betAmount < 50 && props.chips > 50) {
 					errorSet(true);
 					props.setErrorMessage("Minimum bet is 50!");
+				} else if (betAmount <= 0) {
+					errorSet(true);
+					props.setErrorMessage("Minimum bet is 1!");
 				} else if (betAmount > props.chips) {
 					errorSet(true);
 					props.setErrorMessage("You can't bet more than you have!");
@@ -94,8 +104,8 @@ export default function SimpleModal(props) {
 		setOpen(true);
 	};
 
-	const handleClose = () => {
-		if (props.chips > 0) {
+	const handleClose = (betAmount = props.bet) => {
+		if (props.chips > 0 && betAmount <= props.chips) {
 			setOpen(false);
 			props.startGame();
 		}

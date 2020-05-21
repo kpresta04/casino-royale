@@ -52,7 +52,9 @@ function BlackjackPage(props) {
 
 	const [running, runningSet] = useState(false);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		window.document.body.scrollTo(0, 0);
+	}, []);
 
 	const resetAces = () => {
 		for (const card of deck.cards) {
@@ -334,6 +336,7 @@ function BlackjackPage(props) {
 				</div>
 				<div className="scoreBox">
 					{<h2>Your Score: {playerCardsState.handScore}</h2>}
+					<h2 style={{ width: "100%" }}>Current Bet: {bet}</h2>
 				</div>
 
 				<div className="playerCards">
