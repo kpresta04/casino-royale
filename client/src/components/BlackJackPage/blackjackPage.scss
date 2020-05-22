@@ -104,3 +104,30 @@ button:hover {
 		width: 100%;
 	}
 }
+@media screen and (max-width: 620px) {
+	.playingCard {
+		width: 50px;
+		height: 75px;
+		margin: 0.2em;
+	}
+	.playerButtons {
+		grid-column: 1/5;
+	}
+
+	.doubleDownBox {
+		align-items: unset;
+
+		h2 {
+			align-self: flex-end;
+			text-align: center;
+		}
+	}
+	.makeStyles-paper-121 {
+		width: 80vw !important;
+		left: 43% !important;
+	}
+	.playerCards,
+	.dealerCards {
+		margin: 2em auto;
+	}
+}
