@@ -6,13 +6,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Checkbox from "@material-ui/core/Checkbox";
-import Avatar from "@material-ui/core/Avatar";
 import StripeCheckoutButton from "../stripe-button/stripe-button.component";
 import "./cartPage.css";
 import { deleteCartItem } from "../../actions/cartActions";
-import carthead from "../../images/carthead.png"
+import carthead from "../../images/carthead.png";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Paper from '@material-ui/core/Paper';
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -27,6 +27,20 @@ const useStyles = makeStyles((theme) => ({
 			// so a smaller fontsize may be appropriate.
 			fontSize: 24,
 		},
+		image: {
+			backgroundImage: 'url(https://i.ibb.co/8BrJJcd/flamingopattern.jpg)',
+			backgroundRepeat: 'no-repeat',
+			backgroundColor:
+			  theme.palette.type === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900],
+			backgroundSize: 'cover',
+			backgroundPosition: 'center',
+		  },
+		  paper: {
+			margin: theme.spacing(8, 4),
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+		  },
 	},
 }));
 
@@ -48,6 +62,12 @@ export function CartPage(props) {
 	}, [props.cart]);
 	return props.cart.length > 0 ? (
 		<div className="cartBackground">
+		<Grid container component="main" className={classes.root}>
+		<CssBaseline />
+		<Grid item xs={false} sm={4} md={7} className={classes.image} />
+		<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+		  <div className={classes.paper}>
+		
 		<div className="cartList">
 			{/* Your Cart */}
 			<img src={carthead} />
@@ -81,10 +101,27 @@ export function CartPage(props) {
 			</div>
 		</div>
 		</div>
-	) : (
-		<div className="nothingBackground">
-		<h1 className="emptyCartText">Nothing in your cart!</h1>
+		</Grid>
+		</Grid>
 		</div>
+	) : (
+		<div className="cartBackground">
+		<Grid container component="main" className={classes.root}>
+		<CssBaseline />
+		<Grid item xs={false} sm={4} md={7} className={classes.image} />
+		<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+		<div className={classes.paper}>
+		
+		<div className="cartList">
+			<h2>You have nothing in your cart!</h2>
+		</div>
+		
+		</div>
+		</Grid>
+		</Grid>
+		</div>
+		
+
 	);
 	
 }
