@@ -64,7 +64,16 @@ function BlackjackPage(props) {
 			}
 		}
 	};
-
+	const [doubleDownDisabled, doubleDownDisabledSet] = useState(true);
+	const doubleDown = () => {
+		doubleDownDisabledSet(true);
+		const double = bet * 2;
+		if (double <= props.chips) {
+			setBet(double);
+		} else {
+			setBet(props.chips);
+		}
+	};
 	const classes = useStyles();
 
 	const getHandScore = (hand) => {
@@ -191,6 +200,14 @@ function BlackjackPage(props) {
 		dealerCardsState.handScore = getHandScore(dealerCardArray);
 		playerCardsState.handScore = getHandScore(playerCardArray);
 
+		if (
+			playerCardsState.handScore === 9 ||
+			playerCardsState.handScore === 10 ||
+			playerCardsState.handScore === 11
+		) {
+			doubleDownDisabledSet(false);
+		}
+
 		//Check for naturals
 		if (
 			playerCardsState.handScore === 21 &&
@@ -223,6 +240,7 @@ function BlackjackPage(props) {
 
 		// 	1500
 		// );
+		doubleDownDisabledSet(true);
 		runningSet(false);
 		playersTurnSet(false);
 	};
@@ -366,7 +384,8 @@ function BlackjackPage(props) {
 								id="doubleDown-button"
 								variant="outlined"
 								color="primary"
-								disabled
+								disabled={doubleDownDisabled}
+								onClick={doubleDown}
 								style={{ margin: "0 1em", height: "4em", width: "7em" }}
 								// onClick={() => {
 								// 	if (playersTurn) {
