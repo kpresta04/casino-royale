@@ -24,12 +24,11 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: "center",
 		backgroundColor: "black",
 		borderRadius: "50px",
-		border: "10px solid yellow",
-		boxShadow: "0 2px 10px 2px rgb(0, 0, 0)",
+		border: "5px solid yellow",
+		boxShadow: "0 2px 5px 2px yellow, inset 0 2px 5px 2px yellow",
 		padding: theme.spacing(2, 4, 3),
 		outline: 'none',
 		color: "white",
-
 	},
 	root: {
 		"& > *": {
@@ -85,7 +84,7 @@ export function BasicTextFields(props) {
 				label="Bet Amount"
 				variant="outlined"
 			/>
-			<Button type="submit" variant="contained" color="primary">
+			<Button type="submit" variant="contained" style={{ backgroundColor: "rgb(253, 0, 248)" }}>
 				Submit
 			</Button>
 		</form>

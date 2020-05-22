@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
 			// so a smaller fontsize may be appropriate.
 			fontSize: 24,
 		},
-		image: {
-			backgroundImage: 'url(https://i.ibb.co/8BrJJcd/flamingopattern.jpg)',
-			backgroundRepeat: 'no-repeat',
-			backgroundColor:
-			  theme.palette.type === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900],
-			backgroundSize: 'cover',
-			backgroundPosition: 'center',
-		  },
+		// image: {
+		// 	backgroundImage: 'url(https://i.ibb.co/8BrJJcd/flamingopattern.jpg)',
+		// 	backgroundRepeat: 'no-repeat',
+		// 	backgroundColor:
+		// 	theme.palette.type === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900],
+		// 	backgroundSize: 'cover',
+		// 	backgroundPosition: 'center',
+		//   },
 		  paper: {
 			margin: theme.spacing(8, 4),
 			display: 'flex',
@@ -96,7 +96,7 @@ export function CartPage(props) {
 					></ListItemText>
 				</ListItem>
 			</List>
-			<div style={{ display: "flex", justifyContent: "center" }}>
+			<div style={{ display: "flex", justifyContent: "center"}}>
 				<StripeCheckoutButton history={props.history} price={total} />
 			</div>
 		</div>

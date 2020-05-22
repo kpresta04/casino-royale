@@ -17,6 +17,7 @@ import {
 	createUserProfileDocument,
 	signInWithGoogle,
 } from "../../firebase/firebase.utils";
+import alienicon from '../../images/alienicon.png'
 
 function Copyright() {
   return (
@@ -33,10 +34,10 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+	height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://i.ibb.co/NNMJ6hM/astronautpattern.jpg)',
+    backgroundImage: 'url(https://i.ibb.co/WpPMYFf/astronautpattern.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'dark' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -60,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  notchedOutline: {
+	borderColor: "green"
+  }
 }));
 
 export default function SignInSide(props) {
@@ -112,13 +116,11 @@ export default function SignInSide(props) {
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square  style={{backgroundColor: "#F5F5F5"}}>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+			<img src={alienicon} />
           <Typography component="h1" variant="h5">
-            Sign Up
+		  <p  style={{ color: "green"}}>Sign Up</p>
           </Typography>
           <form
 					className={classes.form}
@@ -139,6 +141,12 @@ export default function SignInSide(props) {
 								id="firstName"
 								label="First Name"
 								autoFocus
+								InputProps={{
+									classes: {
+									  notchedOutline: classes.notchedOutline,
+									  cssOutlinedInput: classes.cssOutlinedInput,
+									}
+								  }}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
@@ -150,6 +158,12 @@ export default function SignInSide(props) {
 								label="Last Name"
 								name="lastName"
 								autoComplete="lname"
+								InputProps={{
+									classes: {
+									  notchedOutline: classes.notchedOutline,
+									  cssOutlinedInput: classes.cssOutlinedInput,
+									}
+								  }}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -161,6 +175,12 @@ export default function SignInSide(props) {
 								label="Email Address"
 								name="email"
 								autoComplete="email"
+								InputProps={{
+									classes: {
+									  notchedOutline: classes.notchedOutline,
+									  cssOutlinedInput: classes.cssOutlinedInput,
+									}
+								  }}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -174,6 +194,12 @@ export default function SignInSide(props) {
 								id="password"
 								autoComplete="current-password"
 								error={error.passwordError}
+								InputProps={{
+									classes: {
+									  notchedOutline: classes.notchedOutline,
+									  cssOutlinedInput: classes.cssOutlinedInput,
+									}
+								  }}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -187,6 +213,12 @@ export default function SignInSide(props) {
 								id="confirmPassword"
 								autoComplete="current-password"
 								error={error.passwordError}
+								InputProps={{
+									classes: {
+									  notchedOutline: classes.notchedOutline,
+									  cssOutlinedInput: classes.cssOutlinedInput,
+									}
+								  }}
 							/>
 						</Grid>
 					</Grid>
@@ -198,7 +230,7 @@ export default function SignInSide(props) {
 					<Button
 						type="submit"
 						fullWidth
-						style={{ marginTop: "2em" }}
+						style={{ marginTop: "2em", backgroundColor: "green"}}
 						variant="contained"
 						color="primary"
 					>
@@ -221,7 +253,7 @@ export default function SignInSide(props) {
 					<Grid container justify="flex-end">
 						<Grid item>
 							<Link href="/signin" variant="body2">
-								Already have an account? Sign in
+								<p  style={{ color: "green"}}>Already have an account? Sign in</p>
 							</Link>
 						</Grid>
 					</Grid>

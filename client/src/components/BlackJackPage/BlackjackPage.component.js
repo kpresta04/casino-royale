@@ -27,7 +27,8 @@ const useStyles = makeStyles({
 		background: "rgb(252, 245, 21)",
 		borderRadius: 3,
 		border: 0,
-		color: "white",
+		color: "black",
+		font: "bold",
 		height: 48,
 		padding: "0 30px",
 		boxShadow: "0 1px 5px 1px rgb(0, 0, 0)",
@@ -306,7 +307,7 @@ function BlackjackPage(props) {
 		return <SignInPage redirectURL="/blackjack" history={props.history} />;
 	} else
 		return (
-			<div>
+			<div className="body">
 				<div
 					className="title"
 					style={{
@@ -342,7 +343,7 @@ function BlackjackPage(props) {
 							  ))}
 					</div>
 					<div className="scoreBox">
-						{<h2>Hand score: {!playersTurn && dealerCardsState.handScore}</h2>}
+						{<h2>Hand Score: {!playersTurn && dealerCardsState.handScore}</h2>}
 					</div>
 					<div className="scoreBox">
 						{<h2>Your Score: {playerCardsState.handScore}</h2>}

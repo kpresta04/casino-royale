@@ -9,8 +9,9 @@
 }
 
 .headerLinks:hover {
-	color: white;
-	text-decoration: underline;
+	/* color: #fd00f8; */
+	color: lightskyblue;
+	text-decoration: none;
 	font-family: 'Dosis', sans-serif;
 	font-weight: bolder;
 }
@@ -21,13 +22,10 @@
 
 .buttonLabel:hover {
 	cursor: pointer;
-	text-decoration: underline;
+	color: lightskyblue;
+	text-decoration: none;
 }
 
 .chipButton:hover {
 	cursor: initial !important;
-}
-
-.flamingoicon {
-	padding: 0px 10px 0px 0px;
 }

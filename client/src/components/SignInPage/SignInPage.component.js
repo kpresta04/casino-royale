@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
+import flamingoicon from '../../images/flamingoicon.png'
 
 function Copyright() {
 	return (
@@ -93,11 +94,9 @@ export default function SignInSide(props) {
 			<Grid item xs={false} sm={4} md={7} className={classes.image} />
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
 				<div className={classes.paper}>
-					<Avatar className={classes.avatar}>
-						<LockOutlinedIcon />
-					</Avatar>
+					<img src={flamingoicon} />
 					<Typography component="h1" variant="h5">
-						Sign in
+					<p style={{ color: "rgb(253, 0, 248)" }}>Sign in</p>
 					</Typography>
 					<form
 						className={classes.form}
@@ -142,6 +141,7 @@ export default function SignInSide(props) {
 						<Button
 							type="submit"
 							fullWidth
+							style={{ marginTop: "2em", backgroundColor: "#fd00f8"}}
 							variant="contained"
 							color="primary"
 							className={classes.submit}
@@ -160,12 +160,12 @@ export default function SignInSide(props) {
 									}}
 									variant="body2"
 								>
-									Forgot password?
+									<p style={{ color: "rgb(253, 0, 248)" }}>Forgot password?</p>
 								</Link>
 							</Grid>
 							<Grid item>
 								<Link href="/signup" variant="body2">
-									{"Don't have an account? Sign Up"}
+								<p style={{ color: "rgb(253, 0, 248)" }}>{"Don't have an account? Sign Up"}</p>
 								</Link>
 							</Grid>
 						</Grid>

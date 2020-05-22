@@ -48,9 +48,9 @@ function ButtonAppBar(props) {
 							</Button>
 
 							<Button color="inherit">
-								<ShoppingCartOutlinedIcon style={{ color: "white" }} />
-								<Link style={{ color: "white" }} to="/cart">
-									Cart ({props.cart ? props.cart.length : 0})
+								<ShoppingCartOutlinedIcon />
+								<Link style={{ color: "white", textDecoration: "none" }} to="/cart">
+								<span className="buttonLabel">Cart ({props.cart ? props.cart.length : 0})</span>
 								</Link>
 							</Button>
 
@@ -66,8 +66,8 @@ function ButtonAppBar(props) {
 						</div>
 					) : (
 						<Button color="inherit">
-							<Link style={{ color: "white" }} to="/signin">
-								Login
+							<Link style={{ color: "white", textDecoration: "none" }} to="/signin">
+							<span className="buttonLabel">Login</span>
 							</Link>
 						</Button>
 					)}

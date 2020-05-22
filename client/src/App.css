@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nixie+One');
 
 
-@import 'https://fonts.googleapis.com/css?family=Dosis';
+@import url('https://fonts.googleapis.com/css?family=Dosis');
 
 .App {
   text-align: center;
@@ -23,13 +23,13 @@
   background-size:cover;
   margin:0px;
   padding-top: 0px;
-  min-height: 90vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: 'Nixie One', sans-serif;
-  font-weight: bolder;
+  /* font-family: 'Nixie One', sans-serif;
+  font-weight: bolder; */
   font-size: calc(100px + 2vmin);
   color: white;
 }
@@ -60,11 +60,11 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
   padding: 40px;
 }
 .pricing {
-  background: #112 url(./images/neonbg.jpg)  center no-repeat;
+  background: #112 url(./images/brickbgred.jpg)  center no-repeat;
   background-size:cover;
   margin:0px;
   padding-bottom: 50px;
-  min-height: 50vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,6 +72,7 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
   font-family: 'Nixie One', sans-serif;
   font-size: calc(25px + 2vmin);
   color: white;
+  font-weight: bolder;
 }
 
 
