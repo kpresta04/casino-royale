@@ -56,7 +56,7 @@ function App(props) {
 						""
 					) : (
 						<div>
-							<Button
+							{/* <Button
 								className="mainbtn"
 								size="large"
 								variant="outlined"
@@ -64,7 +64,7 @@ function App(props) {
 								href="/signin"
 							>
 								Sign In
-							</Button>
+							</Button> */}
 							<Button
 								className="mainbtn"
 								size="large"
