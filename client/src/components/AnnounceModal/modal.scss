@@ -1,9 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Nixie+One');
+
+
+@import 'https://fonts.googleapis.com/css?family=Dosis';
+
 .simple-modal-title {
+	font-family: 'Nixie One', sans-serif;
+	font-weight: bolder;
 	font-size: 2em;
 	font-weight: bold;
-	margin: 1em auto;
+	margin: .5em auto;
+	border-radius: 20px;
+	color: white;
 }
 #error-message {
 	margin: 1em auto;
 	color: red;
+}
+
+#outlined-basic {
+	color:white,
 }

@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import "./modal.scss";
 import Pricing from "../Pricing/Pricing.component";
 import { Link } from "react-router-dom";
+
 function getModalStyle() {
 	const top = 40;
 	const left = 50;
@@ -20,17 +21,21 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		position: "absolute",
-
 		textAlign: "center",
-		backgroundColor: theme.palette.background.paper,
-		border: "2px solid #000",
-		boxShadow: theme.shadows[5],
+		backgroundColor: "black",
+		borderRadius: "50px",
+		border: "10px solid yellow",
+		boxShadow: "0 2px 10px 2px rgb(0, 0, 0)",
 		padding: theme.spacing(2, 4, 3),
+		outline: 'none',
+		color: "white",
+
 	},
 	root: {
 		"& > *": {
 			margin: ".5em auto",
 			width: "100%",
+			border: "none",
 		},
 	},
 }));
@@ -151,6 +156,7 @@ export default function SimpleModal(props) {
 	return (
 		<div>
 			<Modal
+				style={{top: "20%"}}
 				open={open}
 				onClose={handleClose}
 				aria-labelledby="simple-modal-title"

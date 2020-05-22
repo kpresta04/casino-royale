@@ -89,7 +89,7 @@ const tiers = [
 		buttonVariant: "contained",
 	},
 	{
-		title: "Pro",
+		title: "The Pro Player",
 		subheader: "Most Popular",
 		price: 25,
 		amount: 3000,
