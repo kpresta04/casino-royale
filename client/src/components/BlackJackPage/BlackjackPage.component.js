@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 		background: "rgb(252, 245, 21)",
 		borderRadius: 3,
 		border: 0,
-		color: "white",
+
 		height: 48,
 		padding: "0 30px",
 		boxShadow: "0 1px 5px 1px rgb(0, 0, 0)",
@@ -64,7 +64,16 @@ function BlackjackPage(props) {
 			}
 		}
 	};
-
+	const [doubleDownDisabled, doubleDownDisabledSet] = useState(true);
+	const doubleDown = () => {
+		doubleDownDisabledSet(true);
+		const double = bet * 2;
+		if (double <= props.chips) {
+			setBet(double);
+		} else {
+			setBet(props.chips);
+		}
+	};
 	const classes = useStyles();
 
 	const getHandScore = (hand) => {
@@ -191,6 +200,14 @@ function BlackjackPage(props) {
 		dealerCardsState.handScore = getHandScore(dealerCardArray);
 		playerCardsState.handScore = getHandScore(playerCardArray);
 
+		if (
+			playerCardsState.handScore === 9 ||
+			playerCardsState.handScore === 10 ||
+			playerCardsState.handScore === 11
+		) {
+			doubleDownDisabledSet(false);
+		}
+
 		//Check for naturals
 		if (
 			playerCardsState.handScore === 21 &&
@@ -223,6 +240,7 @@ function BlackjackPage(props) {
 
 		// 	1500
 		// );
+		doubleDownDisabledSet(true);
 		runningSet(false);
 		playersTurnSet(false);
 	};
@@ -350,31 +368,34 @@ function BlackjackPage(props) {
 
 					<div className="doubleDownBox">
 						<h2>Current Bet: {bet}</h2>
-						<Button className="chipButton" color="inherit">
-							<img
-								src="https://firebasestorage.googleapis.com/v0/b/casino-royale-9c472.appspot.com/o/gaming.svg?alt=media&token=3058a860-e55f-4cbb-aaf9-ee94e79433ce"
-								style={{ height: "24px", width: "24px", marginRight: "1em" }}
-							/>
-							{props.chips ? props.chips : 0}
-						</Button>
-						<Button
-							classes={{
-								root: classes.hit, // class name, e.g. `classes-nesting-root-x`
-								label: classes.label, // class name, e.g. `classes-nesting-label-x`
-							}}
-							id="doubleDown-button"
-							variant="outlined"
-							color="primary"
-							disabled
-							style={{ margin: "0 1em", height: "4em", width: "7em" }}
-							// onClick={() => {
-							// 	if (playersTurn) {
-							// 		runPlayerTurn();
-							// 	}
-							// }}
-						>
-							DOUBLE DOWN
-						</Button>
+						<div className="doubleDownButtons">
+							<Button className="chipButton" color="inherit">
+								<img
+									src="https://firebasestorage.googleapis.com/v0/b/casino-royale-9c472.appspot.com/o/gaming.svg?alt=media&token=3058a860-e55f-4cbb-aaf9-ee94e79433ce"
+									style={{ height: "24px", width: "24px", marginRight: "1em" }}
+								/>
+								{props.chips ? props.chips : 0}
+							</Button>
+							<Button
+								classes={{
+									root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+									label: classes.label, // class name, e.g. `classes-nesting-label-x`
+								}}
+								id="doubleDown-button"
+								variant="outlined"
+								color="primary"
+								disabled={doubleDownDisabled}
+								onClick={doubleDown}
+								style={{ margin: "0 1em", height: "4em", width: "7em" }}
+								// onClick={() => {
+								// 	if (playersTurn) {
+								// 		runPlayerTurn();
+								// 	}
+								// }}
+							>
+								DOUBLE DOWN
+							</Button>
+						</div>
 					</div>
 
 					<div className="playerCards">
@@ -396,44 +417,46 @@ function BlackjackPage(props) {
 					</div>
 					{/* <h1 id="announce-text">{announceText}</h1> */}
 					<div className="playerButtons">
-						<Button
-							classes={{
-								root: classes.hit, // class name, e.g. `classes-nesting-root-x`
-								label: classes.label, // class name, e.g. `classes-nesting-label-x`
-							}}
-							id="hit-button"
-							size="large"
-							color="primary"
-							style={{ margin: "0 1em", height: "3em", width: "7em" }}
-							onClick={() => {
-								if (playersTurn) {
-									runPlayerTurn();
-								}
-							}}
-						>
-							HIT
-						</Button>
+						<div className="player-buttons-container">
+							<Button
+								classes={{
+									root: classes.hit, // class name, e.g. `classes-nesting-root-x`
+									label: classes.label, // class name, e.g. `classes-nesting-label-x`
+								}}
+								id="hit-button"
+								size="large"
+								color="primary"
+								style={{ margin: "0 1em", height: "3em", width: "7em" }}
+								onClick={() => {
+									if (playersTurn) {
+										runPlayerTurn();
+									}
+								}}
+							>
+								HIT
+							</Button>
 
-						<Button
-							classes={{
-								root: classes.stand, // class name, e.g. `classes-nesting-root-x`
-								label: classes.label, // class name, e.g. `classes-nesting-label-x`
-							}}
-							style={{
-								margin: "0 1em",
-								height: "3em",
-								width: "7em",
-							}}
-							size="large"
-							// disabled={!running}
-							onClick={() => {
-								if (playersTurn) {
-									stand();
-								}
-							}}
-						>
-							STAND
-						</Button>
+							<Button
+								classes={{
+									root: classes.stand, // class name, e.g. `classes-nesting-root-x`
+									label: classes.label, // class name, e.g. `classes-nesting-label-x`
+								}}
+								style={{
+									margin: "0 1em",
+									height: "3em",
+									width: "7em",
+								}}
+								size="large"
+								// disabled={!running}
+								onClick={() => {
+									if (playersTurn) {
+										stand();
+									}
+								}}
+							>
+								STAND
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
