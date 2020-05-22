@@ -1,6 +1,6 @@
 .cartBackground {
-	background: #112 url(../../components/SlotPage/img/slotpagebg.jpg) center repeat;
-	/* background-size:cover; */
+	background: #112 url(../../images/cartbg.jpg) center repeat;
+	background-size:cover;
 	margin:0px;
 	padding-top: 0px;
 	min-height: 100vh;
@@ -14,9 +14,8 @@
 
 .cartList {
 	background-color: rgb(255, 255, 255);
-	padding: 25px;
+	padding: 10px;
 	width: 550px;
-	min-height: 100vh;
 	color: rgb(104, 104, 104);
 	font-family: 'Nixie One', sans-serif;
 	font-weight: bolder;
@@ -27,8 +26,8 @@
 
 }
 .nothingBackground {
-	background: #112 url(../../components/SlotPage/img/slotpagebg.jpg) center repeat;
-	/* background-size:cover; */
+	background: #112 url(../../images/cartbg.jpg) center;
+	background-size:cover;
 	margin:0px;
 	padding-top: 0px;
 	min-height: 100vh;

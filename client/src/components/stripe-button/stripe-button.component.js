@@ -64,6 +64,7 @@ function StripeCheckoutButton(props) {
 			panelLabel="Pay Now"
 			token={onToken}
 			stripeKey={publishableKey}
+			style = {{backgroundColor: "#5cff63"}}
 		/>
 	);
 }
