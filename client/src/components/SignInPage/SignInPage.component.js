@@ -60,6 +60,23 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	cssLabel: {
+		"&$cssFocused": {
+		  color: { borderColor: "rgb(253, 0, 248)" }
+		}
+	  },
+	  cssFocused: { borderColor: "rgb(253, 0, 248)" },
+	  cssUnderline: {
+		"&:after": {
+		  borderBottomColor: "rgb(253, 0, 248)"
+		}
+	  },
+	  cssOutlinedInput: {
+		"&$cssFocused $notchedOutline": {
+		  borderColor: "rgb(253, 0, 248)"
+		}
+	  },
+	  notchedOutline: { borderColor: "rgb(253, 0, 248) !important" },
 }));
 
 export default function SignInSide(props) {
@@ -106,6 +123,19 @@ export default function SignInSide(props) {
 						}}
 					>
 						<TextField
+					        InputLabelProps={{
+								classes: {
+								  root: classes.cssLabel,
+								  focused: classes.cssFocused
+								}
+							  }}
+							  InputProps={{
+								classes: {
+								  root: classes.cssOutlinedInput,
+								  focused: classes.cssFocused,
+								  notchedOutline: classes.notchedOutline
+								}
+							  }}		
 							variant="outlined"
 							margin="normal"
 							required
@@ -117,6 +147,19 @@ export default function SignInSide(props) {
 							autoFocus
 						/>
 						<TextField
+					        InputLabelProps={{
+								classes: {
+								  root: classes.cssLabel,
+								  focused: classes.cssFocused
+								}
+							  }}
+							  InputProps={{
+								classes: {
+								  root: classes.cssOutlinedInput,
+								  focused: classes.cssFocused,
+								  notchedOutline: classes.notchedOutline
+								}
+							  }}						
 							variant="outlined"
 							margin="normal"
 							required

@@ -61,9 +61,23 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  notchedOutline: {
-	borderColor: "green"
-  }
+  cssLabel: {
+	"&$cssFocused": {
+	  color: { borderColor: "green" }
+	}
+  },
+  cssFocused: { borderColor: "green" },
+  cssUnderline: {
+	"&:after": {
+	  borderBottomColor: "green"
+	}
+  },
+  cssOutlinedInput: {
+	"&$cssFocused $notchedOutline": {
+	  borderColor: "green"
+	}
+  },
+  notchedOutline: { borderColor: "green !important" },
 }));
 
 export default function SignInSide(props) {
@@ -133,6 +147,19 @@ export default function SignInSide(props) {
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6}>
 							<TextField
+						        InputLabelProps={{
+									classes: {
+									  root: classes.cssLabel,
+									  focused: classes.cssFocused
+									}
+								  }}
+								  InputProps={{
+									classes: {
+									  root: classes.cssOutlinedInput,
+									  focused: classes.cssFocused,
+									  notchedOutline: classes.notchedOutline
+									}
+								  }}						
 								autoComplete="fname"
 								name="firstName"
 								variant="outlined"
@@ -151,6 +178,19 @@ export default function SignInSide(props) {
 						</Grid>
 						<Grid item xs={12} sm={6}>
 							<TextField
+						        InputLabelProps={{
+									classes: {
+									  root: classes.cssLabel,
+									  focused: classes.cssFocused
+									}
+								  }}
+								  InputProps={{
+									classes: {
+									  root: classes.cssOutlinedInput,
+									  focused: classes.cssFocused,
+									  notchedOutline: classes.notchedOutline
+									}
+								  }}						
 								variant="outlined"
 								required
 								fullWidth
@@ -168,6 +208,19 @@ export default function SignInSide(props) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+						        InputLabelProps={{
+									classes: {
+									  root: classes.cssLabel,
+									  focused: classes.cssFocused
+									}
+								  }}
+								  InputProps={{
+									classes: {
+									  root: classes.cssOutlinedInput,
+									  focused: classes.cssFocused,
+									  notchedOutline: classes.notchedOutline
+									}
+								  }}						
 								variant="outlined"
 								required
 								fullWidth
@@ -185,6 +238,19 @@ export default function SignInSide(props) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+						        InputLabelProps={{
+									classes: {
+									  root: classes.cssLabel,
+									  focused: classes.cssFocused
+									}
+								  }}
+								  InputProps={{
+									classes: {
+									  root: classes.cssOutlinedInput,
+									  focused: classes.cssFocused,
+									  notchedOutline: classes.notchedOutline
+									}
+								  }}						
 								variant="outlined"
 								required
 								fullWidth
@@ -204,6 +270,19 @@ export default function SignInSide(props) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+						        InputLabelProps={{
+									classes: {
+									  root: classes.cssLabel,
+									  focused: classes.cssFocused
+									}
+								  }}
+								  InputProps={{
+									classes: {
+									  root: classes.cssOutlinedInput,
+									  focused: classes.cssFocused,
+									  notchedOutline: classes.notchedOutline
+									}
+								  }}						
 								variant="outlined"
 								required
 								fullWidth

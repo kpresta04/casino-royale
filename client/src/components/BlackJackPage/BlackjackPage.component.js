@@ -323,12 +323,9 @@ function BlackjackPage(props) {
 		return <SignInPage redirectURL="/blackjack" history={props.history} />;
 	} else
 		return (
-			<div className="body">
+			<div>
 				<div
 					className="title"
-					style={{
-						backgroundColor: "#2d2d2d",
-					}}
 				>
 					<center>
 						<img className="titleimg" src={header}></img>
@@ -359,7 +356,7 @@ function BlackjackPage(props) {
 							  ))}
 					</div>
 					<div className="scoreBox">
-						{<h2>Hand Score: {!playersTurn && dealerCardsState.handScore}</h2>}
+						{<h2>Hand score: {!playersTurn && dealerCardsState.handScore}</h2>}
 					</div>
 					<div className="scoreBox">
 						{<h2>Your Score: {playerCardsState.handScore}</h2>}
