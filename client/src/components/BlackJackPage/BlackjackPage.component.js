@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 		background: "rgb(252, 245, 21)",
 		borderRadius: 3,
 		border: 0,
-
 		height: 48,
 		padding: "0 30px",
 		boxShadow: "0 1px 5px 1px rgb(0, 0, 0)",
@@ -327,9 +326,6 @@ function BlackjackPage(props) {
 			<div>
 				<div
 					className="title"
-					style={{
-						backgroundColor: "#2d2d2d",
-					}}
 				>
 					<center>
 						<img className="titleimg" src={header}></img>

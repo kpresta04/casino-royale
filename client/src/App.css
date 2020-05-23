@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nixie+One');
 
 
-@import 'https://fonts.googleapis.com/css?family=Dosis';
+@import url('https://fonts.googleapis.com/css?family=Dosis');
 
 .App {
   text-align: center;
@@ -18,18 +18,22 @@
   }
 }
 
+.body, html {
+  background-color: black;
+}
+
 .App-header {
   background: #112 url(./images/brickbg.jpg)  center no-repeat;
   background-size:cover;
   margin:0px;
   padding-top: 0px;
-  min-height: 90vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: 'Nixie One', sans-serif;
-  font-weight: bolder;
+  /* font-family: 'Nixie One', sans-serif;
+  font-weight: bolder; */
   font-size: calc(100px + 2vmin);
   color: white;
 }
@@ -60,11 +64,11 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
   padding: 40px;
 }
 .pricing {
-  background: #112 url(./images/neonbg.jpg)  center no-repeat;
+  background: #112 url(./images/brickbgred.jpg)  center no-repeat;
   background-size:cover;
   margin:0px;
-  padding-bottom: 50px;
-  min-height: 50vh;
+  padding-bottom: 100px;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,6 +76,7 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
   font-family: 'Nixie One', sans-serif;
   font-size: calc(25px + 2vmin);
   color: white;
+  font-weight: bolder;
 }
 
 
@@ -138,10 +143,10 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
 }
 
 .Blackjack {
-  -webkit-filter: brightness(80%);
+  -webkit-filter: brightness(50%);
   background: #112 url(./components/SlotPage/img/blackjackhome.png)  center no-repeat;
   background-size:cover;
-  min-height: 75vh;
+  min-height: 35vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -149,6 +154,7 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
   font-family: 'Nixie One', sans-serif;
   font-size: calc(25px + 2vmin);
   color: white;
+  font-weight: bolder;
 }
 .Blackjack:hover {
   -webkit-filter: brightness(100%);
@@ -158,10 +164,10 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
 }
 
 .Slots {
-  -webkit-filter: brightness(80%);
+  -webkit-filter: brightness(50%);
   background: #112 url(./components/SlotPage/img/slotbg.jpg)  center no-repeat;
   background-size:cover;
-  min-height: 75vh;
+  min-height: 35vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -169,6 +175,7 @@ header .scrolldown a:hover { color: rgb(0, 140, 255); }
   font-family: 'Nixie One', sans-serif;
   font-size: calc(25px + 2vmin);
   color: white;
+  font-weight: bolder;
 }
 
 .App-link {

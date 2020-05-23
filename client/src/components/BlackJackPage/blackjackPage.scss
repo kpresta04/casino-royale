@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Nixie+One");
+@import url('https://fonts.googleapis.com/css2?family=Teko&display=swap');
+
 
 .body {
 	background-color: #000000;
@@ -12,15 +14,16 @@
 	grid-column: 2/4;
 	display: flex;
 	justify-content: center;
-	// width: max-content;
 	flex-wrap: wrap;
-
-	margin: 4em auto;
+	max-width: 100%;
+	margin: 1em auto;
 }
 
 .playingCard {
-	margin: 0 1em;
+	margin: .2em;
 	height: 150px;
+	border-radius: 10px;
+	box-shadow: 2px 2px 5px black;
 }
 
 .scoreBox {
@@ -39,12 +42,14 @@
 		text-align: right;
 	}
 }
+
 .doubleDownBox {
 	grid-column: 4;
 	grid-row: 2;
 
 	display: flex;
-	align-items: center;
+	align-items: top;
+	justify-content: center;
 	flex-wrap: wrap;
 
 	h2 {
@@ -60,33 +65,36 @@
 .scoreBox:nth-of-type(2) {
 	grid-row: 1;
 	grid-column: 1;
-	vertical-align: middle;
+	vertical-align: bottom;
+}
+
+.entirebg {
+	background: radial-gradient(#34b445, #000000);
 }
 
 .blackJackBoard {
-	font-family: "Nixie One", sans-serif;
-	font-size: calc(12px + 1vmin);
+	font-family: "Teko", sans-serif;
+	font-size: 2em;
 	color: white;
-	min-height: 100vh;
-	margin: 0;
+	height: auto;
+	margin: 0 0 100px 0;
 	background: radial-gradient(#34b445, #000000);
 	background-repeat: repeat-y;
 	background-color: #000000;
 	box-shadow: 5px 1px 10px #000000;
-	// background-image: linear-gradient(148deg, #000000 0%, #1cb45e 90%,);
-	// background: #065506;
-
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(3, 1fr);
+	grid-template-rows: auto;
+
 }
 .playerButtons {
 	grid-column: 2/4;
 	grid-row: 3;
-	margin: 0 auto;
+	margin: 2em auto;
 	display: flex;
-	justify-content: center;
-	align-items: start;
+	justify-content: top;
+	align-items: top;
+	grid-auto-rows: 10vmax;
 }
 
 #announce-text {
