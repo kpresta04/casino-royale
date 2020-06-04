@@ -11,7 +11,7 @@ import "./cartPage.css";
 import { deleteCartItem } from "../../actions/cartActions";
 import carthead from "../../images/carthead.png";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Paper from '@material-ui/core/Paper';
+import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		margin: "2em auto",
 		maxWidth: 360,
-        alignItems: 'center',
-        justifyContent: 'center',
+		alignItems: "center",
+		justifyContent: "center",
 
 		typography: {
 			// In Chinese and Japanese the characters are usually larger,
@@ -35,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
 		// 	backgroundSize: 'cover',
 		// 	backgroundPosition: 'center',
 		//   },
-		  paper: {
+		paper: {
 			margin: theme.spacing(8, 4),
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-		  },
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+		},
 	},
 }));
 
@@ -62,68 +62,66 @@ export function CartPage(props) {
 	}, [props.cart]);
 	return props.cart.length > 0 ? (
 		<div className="cartBackground">
-		<Grid container component="main" className={classes.root}>
-		<CssBaseline />
-		<Grid item xs={false} sm={4} md={7} className={classes.image} />
-		<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-		  <div className={classes.paper}>
-		
-		<div className="cartList">
-			{/* Your Cart */}
-			<img src={carthead} />
-			<List dense className={classes.root}>
-				{props.cart.map((item, index) => {
-					const labelId = `checkbox-list-secondary-label-${item}`;
-					return (
-						<ListItem divider key={index} button>
-							<ListItemText primary={"$" + item.price} />
+			<Grid container component="main" className={classes.root}>
+				<CssBaseline />
+				<Grid item xs={false} sm={4} md={7} className={classes.image} />
+				<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+					<div className={classes.paper}>
+						<div className="cartList">
+							{/* Your Cart */}
+							<img src={carthead} />
+							<List dense className={classes.root}>
+								{props.cart.map((item, index) => {
+									const labelId = `checkbox-list-secondary-label-${item}`;
+									return (
+										<ListItem divider key={index} button>
+											<ListItemText primary={"$" + item.price} />
 
-							<ListItemText id={labelId} primary={item.description} />
-							<ListItemSecondaryAction>
-								<HighlightOffIcon
-									className="delete-button"
-									onClick={() => handleDelete(item.id)}
-									edge="end"
-								/>
-							</ListItemSecondaryAction>
-						</ListItem>
-					);
-				})}
-				<ListItem style={{ marginTop: "1.5em" }}>
-					<ListItemText
-						className="totalText"
-						primary={`Total: $${total}`}
-					></ListItemText>
-				</ListItem>
-			</List>
-			<div style={{ display: "flex", justifyContent: "center"}}>
-				<StripeCheckoutButton history={props.history} price={total} />
-			</div>
-		</div>
-		</div>
-		</Grid>
-		</Grid>
+											<ListItemText id={labelId} primary={item.description} />
+											<ListItemSecondaryAction>
+												<HighlightOffIcon
+													className="delete-button"
+													onClick={() => handleDelete(item.id)}
+													edge="end"
+												/>
+											</ListItemSecondaryAction>
+										</ListItem>
+									);
+								})}
+								<ListItem style={{ marginTop: "1.5em" }}>
+									<ListItemText
+										className="totalText"
+										primary={`Total: $${total}`}
+									></ListItemText>
+								</ListItem>
+							</List>
+							<h3>
+								Use test card to checkout: 4242 4242 4242 4242, exp. date:
+								01/21, CVC: 123
+							</h3>
+							<div style={{ display: "flex", justifyContent: "center" }}>
+								<StripeCheckoutButton history={props.history} price={total} />
+							</div>
+						</div>
+					</div>
+				</Grid>
+			</Grid>
 		</div>
 	) : (
 		<div className="cartBackground">
-		<Grid container component="main" className={classes.root}>
-		<CssBaseline />
-		<Grid item xs={false} sm={4} md={7} className={classes.image} />
-		<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-		<div className={classes.paper}>
-		
-		<div className="cartList">
-			<h2>You have nothing in your cart!</h2>
+			<Grid container component="main" className={classes.root}>
+				<CssBaseline />
+				<Grid item xs={false} sm={4} md={7} className={classes.image} />
+				<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+					<div className={classes.paper}>
+						<div className="cartList">
+							<h2>You have nothing in your cart!</h2>
+						</div>
+					</div>
+				</Grid>
+			</Grid>
 		</div>
-		
-		</div>
-		</Grid>
-		</Grid>
-		</div>
-		
-
 	);
-	
 }
 const mapStateToProps = (state) => ({
 	user: state.user,
