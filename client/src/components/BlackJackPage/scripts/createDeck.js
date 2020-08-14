@@ -33,6 +33,8 @@ const createDeck = () => {
 	const addShortString = (cards) => {
 		for (const card of cards) {
 			card.shortString = card.toShortDisplayString();
+			card.shortString =
+				card.shortString[0] + card.shortString[1].toLowerCase();
 		}
 	};
 

@@ -324,9 +324,7 @@ function BlackjackPage(props) {
 	} else
 		return (
 			<div>
-				<div
-					className="title"
-				>
+				<div className="title">
 					<center>
 						<img className="titleimg" src={header}></img>
 					</center>
