@@ -20,7 +20,7 @@
 		"firebase": "^7.14.3",
 		"mongoose": "^5.9.13",
 		"morgan": "^1.10.0",
-		"node-sass": "^4.14.0",
+		"node-sass": "^7.0.0",
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
 		"react": "^16.13.1",
